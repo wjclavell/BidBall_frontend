@@ -5,7 +5,7 @@
 |  Day | Deliverable | Status
 |---|---| ---|
 |Day 1| Project Description | Complete
-|Day 1| Wireframes / Priority Matrix / Timeline `backend` and `frontend`| Incomplete
+|Day 1| Wireframes / Priority Matrix / Timeline `backend` and `frontend`| Complete
 |Day 2| Working RestAPI | Incomplete
 |Day 3| Core Application Structure (HTML, CSS, etc.) | Incomplete
 |Day 4| MVP & Bug Fixes | Incomplete
@@ -24,8 +24,7 @@ This project will be a sports "betting" app (not real currency), in a similar st
 Upload images of wireframe to cloudinary and add the link here with a description of the specific wireframe. Do not include the actual image and have it render on the page.  
 
 - [Mobile](https://res.cloudinary.com/wjclavell/image/upload/v1600036460/P4/SportsBettingMobile_iff43t.png)
-- [Tablet](https://git.generalassemb.ly/SEIR-629/project-1-portfolio/blob/master/readme-assets/nav-highlight.gif)
-- [Desktop](https://git.generalassemb.ly/SEIR-629/project-1-portfolio/blob/master/readme-assets/desktop.png)
+- [Desktop](https://res.cloudinary.com/wjclavell/image/upload/v1600053553/P4/p4-desktop_mgscsk.png)
 
 ## Time/Priority Matrix 
 
