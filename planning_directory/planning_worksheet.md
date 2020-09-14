@@ -5,8 +5,7 @@
 |  Day | Deliverable | Status
 |---|---| ---|
 |Day 1| Project Description | Complete
-|Day 1| Wireframes / Priority Matrix / Timeline `backend` and `frontend`| Complete
-|Day 2| Working RestAPI | Incomplete
+|Day 2| Wireframes / Priority Matrix / Timeline `backend` and `frontend`| Complete
 |Day 3| Core Application Structure (HTML, CSS, etc.) | Incomplete
 |Day 4| MVP & Bug Fixes | Incomplete
 |Day 5| Final Touches and Present | Incomplete
@@ -36,7 +35,7 @@ The functionality will then be divided into two separate lists: MPV and PostMVP.
 
 #### MVP
 
-- Pull data using sportspagefeeds api (or another equivalent)
+- Pull data using 'The Rundown' api (or another equivalent)
 - Show today's current games (only baseball for MVP)
 - Virtual currency that increases & decreases
 - Games and results update
@@ -52,9 +51,8 @@ The functionality will then be divided into two separate lists: MPV and PostMVP.
 
 ## Functional Components
 
-Based on the initial logic defined in the previous sections try and breakdown the logic further into functional components, and by that we mean functions.  Try and capture what logic would need to be defined if the game was broken down into the following categories.
-
-Time frames are also key in the development cycle.  You have limited time to code all phases of the game.  Your estimates can then be used to evalute game possibilities based on time needed and the actual time you have before game must be submitted. It's always best to pad the time by a few hours so that you account for the unknown so add and additional hour or two to each component to play it safe.
+Based on the initial logic defined in the previous sections try and breakdown the logic further into functional
+ components.
 
 #### MVP
 | Component | Priority | Estimated Time | Time Invetsted | Actual Time |
@@ -80,7 +78,9 @@ Time frames are also key in the development cycle.  You have limited time to cod
 | Total | H | 12.5hrs| -hrs | -hrs |
 
 ## Additional Libraries
- Use this section to list all supporting libraries and thier role in the project. 
+- Vue
+- Slick Carousel
+- The Rundown API
 
 ## Code Snippet
 
