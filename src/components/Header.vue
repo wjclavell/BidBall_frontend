@@ -3,7 +3,7 @@
     <b-navbar style="border-bottom: .25em solid #812286">
       <template slot="brand">
         <b-navbar-item tag="router-link" to="/">
-          <img src="../assets/bidball_greenemblem.png" id="bblogo" alt="Bid Ball emblem logo" />
+          <img src="../assets/bidball_purpleemblem.png" id="bblogo" alt="Bid Ball emblem logo" />
         </b-navbar-item>
       </template>
       <template slot="start">
