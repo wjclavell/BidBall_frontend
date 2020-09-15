@@ -1,27 +1,24 @@
 <template>
   <div id="app">
     <div id="nav">
-      <Header/>
-
-      
+      <Header />
     </div>
-    <router-view/>
-    <Footer/>
+    <router-view />
+    <Footer />
   </div>
 </template>
 
 <script>
-import Header from './components/Header'
-import Footer from './components/Footer'
+import Header from "./components/Header";
+import Footer from "./components/Footer";
 
 export default {
-  name: 'App',
+  name: "App",
   components: {
     Header,
-    Footer
-  }
-  
-}
+    Footer,
+  },
+};
 </script>
 
 <style>
@@ -34,7 +31,7 @@ export default {
 }
 
 #nav {
-  padding: 30px;
+  margin: 1em 0 2em 0;
 }
 
 #nav a {
@@ -43,6 +40,6 @@ export default {
 }
 
 #nav a.router-link-exact-active {
-  color: #42b983;
+  color: #7bc473;
 }
 </style>
