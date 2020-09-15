@@ -18,13 +18,16 @@
           <b-navbar-item href="#">Contact</b-navbar-item>
         </b-navbar-dropdown>-->
       </template>
-
       <template slot="end">
         <b-navbar-item tag="div">
           <div class="buttons">
-            <a class="button is-light" style="background: none">Log in</a>
-            <a class="button is-primary" style="color: white; background-color: #812286">
-              <strong>Join</strong>
+            <a class="button is-light" style="background: none">
+              <router-link id="login" to="/login">Log in</router-link>
+            </a>
+            <a class="button is-primary" style="background-color: #7bc473">
+              <router-link style="color: white; background-color: transparent" to="/signup">
+                <strong id="join">Join</strong>
+              </router-link>
             </a>
           </div>
         </b-navbar-item>
@@ -56,5 +59,11 @@ export default {
 .burger span {
   transform: scale(1.1);
   font-weight: bold;
+}
+#join:hover {
+  color: #812286;
+}
+#login:hover {
+  color: #7bc473;
 }
 </style>

@@ -12,7 +12,7 @@ import HelloWorld from "../components/HelloWorld.vue";
 import Collapse from "../components/Collapse.vue";
 
 export default {
-  name: "Profile",
+  name: "Signup",
   components: {
     HelloWorld,
     Collapse,
