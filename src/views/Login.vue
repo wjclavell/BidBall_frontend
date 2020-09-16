@@ -23,14 +23,12 @@ export default {
     return {
       username: "",
       password: "",
-      prodUrl: "",
-      devUrl: "http://localhost:8000",
+      URL: "http://localhost:8000/",
     };
   },
   methods: {
     handleLogin: function () {
-      let URL = this.prodUrl ? this.prodUrl : this.devUrl;
-      fetch(`${URL}/auth/users/login/`, {
+      fetch(`${this.URL}auth/users/login/`, {
         method: "post",
         headers: {
           "Content-Type": "application/json",
