@@ -4,6 +4,7 @@ import Home from "../views/Home.vue";
 import Profile from "../views/Profile.vue";
 import Signup from "../views/Signup.vue";
 import Login from "../views/Login.vue";
+import Main from "../views/Main.vue";
 
 Vue.use(VueRouter);
 
@@ -27,6 +28,12 @@ const routes = [
     path: "/login",
     name: "Login",
     component: Login,
+    props: true,
+  },
+  {
+    path: "/main",
+    name: "Main",
+    component: Main,
     props: true,
   },
 ];

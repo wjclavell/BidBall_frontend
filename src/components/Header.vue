@@ -24,7 +24,12 @@
             <button v-if="!loggedIn" class="button is-light" style="background: none">
               <router-link id="login" to="/login">Log in</router-link>
             </button>
-            <button v-if="loggedIn" class="button is-light" style="background: none">
+            <button
+              @click="logout"
+              v-if="loggedIn"
+              class="button is-light"
+              style="background: none"
+            >
               <router-link id="logout" to="/">Log out</router-link>
             </button>
             <button v-if="!loggedIn" class="button is-primary" style="background-color: #7bc473">
@@ -53,6 +58,11 @@
 export default {
   name: "Header",
   props: ["URL", "loggedIn"],
+  methods: {
+    logout: function () {
+      this.$emit("logout");
+    },
+  },
 };
 </script>
 
