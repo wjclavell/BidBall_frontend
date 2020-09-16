@@ -25,7 +25,7 @@
               <router-link id="login" to="/login">Log in</router-link>
             </button>
             <button v-if="loggedIn" class="button is-light" style="background: none">
-              <router-link id="login" to="/login">Log out</router-link>
+              <router-link id="logout" to="/">Log out</router-link>
             </button>
             <button v-if="!loggedIn" class="button is-primary" style="background-color: #7bc473">
               <router-link style="color: white; background-color: transparent" to="/signup">
@@ -35,7 +35,14 @@
           </div>
         </b-navbar-item>
         <b-navbar-item tag="router-link" to="/">
-          <img src="../assets/bidball_purpleemblem.png" id="bblogo" alt="Bid Ball emblem logo" />
+          <router-link to="/profile">
+            <img
+              v-if="loggedIn"
+              src="https://res.cloudinary.com/wjclavell/image/upload/v1600292929/P4/bidball_default-user_lrcu7s.png"
+              id="user-profile-pic"
+              alt="default user"
+            />
+          </router-link>
         </b-navbar-item>
       </template>
     </b-navbar>
@@ -72,5 +79,15 @@ export default {
 }
 #login:hover {
   color: #7bc473;
+}
+#user-profile-pic {
+  width: 30px;
+  height: 30px;
+  border: 2px solid #278338;
+  border-radius: 50%;
+}
+#user-profile-pic:hover {
+  cursor: pointer;
+  border-color: #812286;
 }
 </style>
