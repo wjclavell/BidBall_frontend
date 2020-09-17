@@ -9,7 +9,7 @@
     </button>
     <!-- WILL MAKE A TEMPLATE CARD AND LOOP THROUGH EACH EVENT TO CREATE THE CARDS FOR ALL DATA FROM REQUEST -->
     <div class="event-container">
-      <div class="game-card" v-for="game in events" :key="game">
+      <div class="game-card" v-for="game in this.events" :key="game">
         <div class="teams">
           <div class="team">
             <p>Away</p>
@@ -69,7 +69,7 @@ const unirest = require("unirest"); // unirest library used to make requests to 
 const KEY = process.env.VUE_APP_API_KEY;
 
 //sample data
-let events = [
+let juegos = [
   {
     event_id: "cfcb881774035cb5da1a01bcd1464b74",
     sport_id: 3,
@@ -240,6 +240,8 @@ let events = [
   },
 ];
 
+let event_list = [];
+
 export default {
   name: "Main",
   components: {},
@@ -261,8 +263,10 @@ export default {
       team2: "",
       score1: "",
       score2: "",
+      user_token: this.token,
     };
   },
+  computed: {},
   methods: {
     // method to get all the daily games/events by sport
     getEvents: function() {
@@ -287,7 +291,8 @@ export default {
 
       req.end(function(res) {
         if (res.error) throw new Error(res.error);
-        // TODO this is where game/event cards will be created using data from request
+        //! something is wrong...i believe the cards are being created from the global array (which is empty) could work with global array but i dont think it is re-rendering the card-container when new data is added
+        //! other note, for some reason i can't access 'this'
         // stuff below was just testing if I could get and use the data
         console.log(res.body);
         console.log("event ID: ", res.body.events[0].event_id);
@@ -301,10 +306,11 @@ export default {
           res.body.events[0].teams[1].name,
           res.body.events[0].score.score_home
         );
+
+        this.events = []; //empty the events array
         res.body.events.forEach((game) => {
           //for each game in the request data
-          events = []; //empty the events array
-          events.push({
+          this.events.push({
             //push relevant info to array to use for cards
             event_id: game.event_id,
             team1: game.teams[0].name,
@@ -315,8 +321,8 @@ export default {
             score2: game.score.score_home,
             status: game.score.event_status,
           });
-          console.log(events);
         });
+        console.log(event_list);
         // if (
         //   this.winner == "away" &&
         //   res.body.events[0].score.winner_away == 1
@@ -355,7 +361,8 @@ export default {
       console.log(this.pick, this.date);
     },
     sampleData: function() {
-      events.forEach((game) => {
+      this.events = [];
+      juegos.forEach((game) => {
         this.events.push({
           event_id: game.event_id,
           team1: game.teams[0].name,
@@ -367,6 +374,7 @@ export default {
           status: game.score.event_status,
         });
       });
+      console.log(this.events);
     },
     //TODO this method will create a bid for the user based on the inputted pick, amount, and event_id
     placeBid: function(id) {

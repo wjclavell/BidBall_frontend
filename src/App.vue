@@ -3,7 +3,7 @@
     <div id="nav">
       <Header v-bind:URL="URL" v-bind:loggedIn="loggedIn" @logout="logout" />
     </div>
-    <router-view @loggedIn="login($event)" />
+    <router-view @loggedIn="login($event)" :token="token" />
     <Footer />
   </div>
 </template>
@@ -18,7 +18,7 @@ export default {
     Header,
     Footer,
   },
-  data: function () {
+  data: function() {
     return {
       loggedIn: false,
       token: "",
@@ -26,18 +26,18 @@ export default {
     };
   },
   methods: {
-    login: function (event) {
+    login: function(event) {
       console.log("event heard: ");
       this.loggedIn = true;
       this.token = event.token;
       console.log(this.token);
       this.$router.push("/main");
     },
-    logout: function () {
+    logout: function() {
       this.loggedIn = false;
       this.token = "";
     },
-    signup: function (event) {
+    signup: function(event) {
       console.log("registered!: ", event);
       this.loggedIn = true;
       this.token = event.token;
