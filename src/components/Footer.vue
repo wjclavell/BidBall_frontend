@@ -23,12 +23,4 @@ export default {
 </script>
 
 <style>
-.footer {
-  width: 100%;
-  background-color: palegoldenrod;
-  border: 1px solid paleturquoise;
-}
-.content {
-  border: 1px solid palevioletred;
-}
 </style>

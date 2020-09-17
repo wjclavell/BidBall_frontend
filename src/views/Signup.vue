@@ -2,17 +2,19 @@
   <div id="signup-page">
     <h1>Sign up and start placing your bids!</h1>
     <div class="signup-form">
-      <b-field class="sfields" label="First name" label-position="on-border">
-        <b-input v-model="firstName"></b-input>
-      </b-field>
-      <b-field class="sfields" label="Last name" label-position="on-border">
-        <b-input v-model="lastName"></b-input>
+      <b-field horizontal label="Name">
+        <b-field class="sfields" label="First name" label-position="on-border">
+          <b-input v-model="firstName"></b-input>
+        </b-field>
+        <b-field class="sfields" label="Last name" label-position="on-border">
+          <b-input v-model="lastName"></b-input>
+        </b-field>
       </b-field>
       <b-field class="sfields" label="Email" label-position="on-border">
-        <b-input type="email" maxlength="30"></b-input>
+        <b-input v-model="email" type="email" maxlength="30"></b-input>
       </b-field>
       <b-field class="sfields" label="Username" label-position="on-border">
-        <b-input maxlength="30"></b-input>
+        <b-input v-model="username" maxlength="30"></b-input>
       </b-field>
       <b-field class="sfields" label="Password" label-position="on-border">
         <b-input
@@ -23,7 +25,7 @@
         ></b-input>
       </b-field>
       <b-field>
-        <b-select placeholder="Favorite Sport">
+        <b-select v-model="favoriteSport" placeholder="Favorite Sport">
           <option>Baseball</option>
           <option>Basketball</option>
           <option>Football</option>
@@ -31,7 +33,7 @@
       </b-field>
       <a class="button is-primary signup-btn" style="background-color: #812286">
         <router-link style="color: white; background-color: transparent" to="/">
-          <strong id="signup">Sign Up</strong>
+          <strong id="signup" @click="handleRegister">Sign Up</strong>
         </router-link>
       </a>
     </div>
@@ -43,9 +45,39 @@ export default {
   name: "Signup",
   data: function () {
     return {
+      firstName: "",
+      lastName: "",
+      email: "",
       username: "",
       password: "",
+      favoriteSport: "",
+      URL: "http://localhost:8000/",
     };
+  },
+  methods: {
+    handleRegister: function () {
+      fetch(`${this.URL}auth/users/register/`, {
+        method: "post",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          username: this.username,
+          password: this.password,
+          email: this.email,
+          firstName: this.firstName,
+          lastName: this.lastName,
+          favoriteSport: this.favoriteSport,
+        }),
+      })
+        .then((response) => {
+          response.json();
+        })
+        .then((data) => {
+          console.log(data);
+          alert("Sign up successful! Now login in to continue.");
+        });
+    },
   },
 };
 </script>
