@@ -1,5 +1,46 @@
 <template>
   <div class="main">
+    <div class="categories">
+      <div class="sport-wrap">
+        <h1 class="labels">
+          Baseball
+        </h1>
+        <b-icon
+          @click.native="pickSport"
+          class="ball"
+          id="3"
+          pack="fas"
+          icon="baseball-ball"
+          size="is-large"
+        ></b-icon>
+      </div>
+      <div class="sport-wrap">
+        <h1 class="labels">
+          Basketball
+        </h1>
+        <b-icon
+          @click.native="pickSport"
+          class="ball"
+          id="4"
+          pack="fas"
+          icon="basketball-ball"
+          size="is-large"
+        ></b-icon>
+      </div>
+      <div class="sport-wrap">
+        <h1 class="labels">
+          Football
+        </h1>
+        <b-icon
+          @click.native="pickSport"
+          class="ball"
+          id="2"
+          pack="fas"
+          icon="football-ball"
+          size="is-large"
+        ></b-icon>
+      </div>
+    </div>
     <button
       class="button is-primary"
       style="background-color: #7bc473"
@@ -576,11 +617,10 @@ let juegos = [
 
 export default {
   name: "Main",
-  components: {},
-  props: ["token"],
+  props: ["token", "url"],
   data: function() {
     return {
-      URL: "http://localhost:8000/", //url for local api
+      BBurl: this.url, //url for local api
       rundown: "https://therundown-therundown-v1.p.rapidapi.com", //url for external api
       pick: "",
       event_id: "",
@@ -589,12 +629,12 @@ export default {
         .toJSON()
         .slice(0, 10)
         .replace(/-/g, "-"),
-      sport_id: 3, // sport_id will be determined by what category the user clicks on
+      sport_id: null, // sport_id will be determined by what category the user clicks on
       events: [],
-      team1: "",
-      team2: "",
-      score1: "",
-      score2: "",
+      // team1: "",
+      // team2: "",
+      // score1: "",
+      // score2: "",
       user_token: this.token,
     };
   },
@@ -710,6 +750,10 @@ export default {
       });
       console.log(this.events);
     },
+    pickSport: function() {
+      this.sport_id = event.target.id;
+      this.sampleData();
+    },
     //TODO this method will create a bid for the user based on the inputted pick, amount, and event_id
     placeBid: function(id) {
       this.event_id = id;
@@ -723,6 +767,30 @@ export default {
 <style>
 .main {
   height: 100vh;
+}
+.categories {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  border-top: 2px solid #b1b1b1;
+  border-bottom: 2px solid #b1b1b1;
+  margin-bottom: 3em;
+}
+.sport-wrap {
+  display: flex;
+  align-items: center;
+  padding: 0.5em;
+}
+.labels {
+  font-size: 2em;
+  margin-right: 1em;
+}
+.ball {
+  color: #b1b1b1;
+}
+.ball:hover {
+  color: #50b963;
+  cursor: pointer;
 }
 .event-container {
   display: flex;

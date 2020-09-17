@@ -4,12 +4,16 @@
       <div id="wrap">
         <div id="nav">
           <Header
-            v-bind:URL="URL"
+            v-bind:url="URL"
             v-bind:loggedIn="loggedIn"
             @logout="logout"
           />
         </div>
-        <router-view @loggedIn="login($event)" :token="token" />
+        <router-view
+          @loggedIn="login($event)"
+          v-bind:url="URL"
+          :token="token"
+        />
       </div>
       <footer id="footer">
         <div class="content has-text-centered">

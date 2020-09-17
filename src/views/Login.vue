@@ -19,15 +19,16 @@
 <script>
 export default {
   name: "Login",
-  data: function () {
+  props: ["url"],
+  data: function() {
     return {
       username: "",
       password: "",
-      URL: "http://localhost:8000/",
+      URL: this.url,
     };
   },
   methods: {
-    handleLogin: function () {
+    handleLogin: function() {
       fetch(`${this.URL}auth/users/login/`, {
         method: "post",
         headers: {

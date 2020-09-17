@@ -79,7 +79,12 @@
 <script>
 export default {
   name: "Header",
-  props: ["URL", "loggedIn"],
+  props: ["url", "loggedIn"],
+  data: function() {
+    return {
+      URL: this.url,
+    };
+  },
   methods: {
     logout: function() {
       this.$emit("logout");
@@ -116,7 +121,7 @@ export default {
 #user-profile-pic {
   width: 30px;
   height: 30px;
-  border: 2px solid #7bc473;
+  border: 2px solid #50b963;
   border-radius: 50%;
   transform: scale(1.5);
   margin-right: 1.5em;
