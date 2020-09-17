@@ -1,10 +1,10 @@
 <template>
   <div id="login-page">
     <div class="login-form">
-      <b-field class="fields" label="Username" label-position="on-border">
+      <b-field class="lfields" label="Username" label-position="on-border">
         <b-input v-model="username" maxlength="30"></b-input>
       </b-field>
-      <b-field class="fields" label="Password" label-position="on-border">
+      <b-field class="lfields" label="Password" label-position="on-border">
         <b-input v-model="password" type="password"></b-input>
       </b-field>
       <a class="button is-primary" style="background-color: #7bc473">
@@ -61,7 +61,7 @@ export default {
 
 <style>
 #login-page {
-  height: 70vh;
+  height: 100vh;
 }
 .login-form {
   padding: 2em;
@@ -73,13 +73,14 @@ export default {
   margin: 0 auto;
   width: 60vw;
   max-width: 500px;
+  min-width: 300px;
   background-color: white;
   border-radius: 1em;
   box-shadow: 0 4px 7px #b1b1b1;
 }
-.fields {
+.lfields {
   align-self: center;
-  width: 70%;
+  width: 90%;
   margin: 1em;
 }
 .login-form a {
@@ -105,7 +106,7 @@ export default {
 }
 
 @media only screen and (max-width: 400px) {
-  .fields {
+  .lfields {
     align-self: center;
     width: 90%;
     margin: 0.5em;

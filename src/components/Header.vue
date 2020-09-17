@@ -87,7 +87,8 @@ export default {
 #join:hover {
   color: #812286;
 }
-#login:hover {
+#login:hover,
+#logout:hover {
   color: #7bc473;
 }
 #user-profile-pic {
@@ -95,6 +96,8 @@ export default {
   height: 30px;
   border: 2px solid #278338;
   border-radius: 50%;
+  transform: scale(1.5);
+  margin-right: 1.5em;
 }
 #user-profile-pic:hover {
   cursor: pointer;

@@ -3,7 +3,9 @@
     <div id="nav">
       <Header v-bind:URL="URL" v-bind:loggedIn="loggedIn" @logout="logout" />
     </div>
-    <router-view @loggedIn="login($event)" />
+    <section>
+      <router-view @loggedIn="login($event)" />
+    </section>
     <Footer />
   </div>
 </template>
@@ -62,9 +64,5 @@ export default {
 
 #nav a.router-link-exact-active {
   color: #7bc473;
-}
-
-router-view {
-  height: 100vh;
 }
 </style>

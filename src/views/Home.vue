@@ -2,6 +2,10 @@
   <div class="home">
     <img alt="Vue logo" src="../assets/logo.png" />
     <HelloWorld msg="Welcome to Your Vue.js App" />
+    <br />
+    <h1>
+      <strong>This will be the landing page</strong>
+    </h1>
   </div>
 </template>
 
@@ -17,7 +21,7 @@ export default {
 };
 </script>
 <style>
-.Home {
+.home {
   height: 100vh;
 }
 </style>

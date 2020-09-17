@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <footer class="footer">
+  <div class="footer">
+    <footer>
       <div class="content has-text-centered">
         <p>
           <strong>Bulma</strong> by
@@ -23,4 +23,12 @@ export default {
 </script>
 
 <style>
+.footer {
+  width: 100%;
+  background-color: palegoldenrod;
+  border: 1px solid paleturquoise;
+}
+.content {
+  border: 1px solid palevioletred;
+}
 </style>
