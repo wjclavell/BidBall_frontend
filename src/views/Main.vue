@@ -3,7 +3,7 @@
     <button
       class="button is-primary"
       style="background-color: #7bc473"
-      @click="sampleData"
+      @click="getEvents"
     >
       Show the events!
     </button>
@@ -246,16 +246,16 @@ export default {
   props: ["token"],
   data: function() {
     return {
-      URL: "http://localhost:8000/",
-      rundown: "https://therundown-therundown-v1.p.rapidapi.com/",
+      URL: "http://localhost:8000/", //url for local api
+      rundown: "https://therundown-therundown-v1.p.rapidapi.com", //url for external api
       pick: "",
       event_id: "",
       amount: null,
       date: new Date() //convert today's date to yyyy-mm-dd format, used to get today's games
         .toJSON()
         .slice(0, 10)
-        .replace(/-/g, "/"),
-      sport_id: null, // sport_id will be determined by what category the user clicks on
+        .replace(/-/g, "-"),
+      sport_id: 3, // sport_id will be determined by what category the user clicks on
       events: [],
       team1: "",
       team2: "",
@@ -293,15 +293,30 @@ export default {
         console.log("event ID: ", res.body.events[0].event_id);
         console.log(
           "teams playing: ",
-          "Away: ",
+          "Away:",
           // first team wil always be the away team
           res.body.events[0].teams[0].name, //team name
           res.body.events[0].score.score_away, //team score
-          "Home: ",
+          " Home:",
           res.body.events[0].teams[1].name,
           res.body.events[0].score.score_home
         );
-        console.log(this.winner);
+        res.body.events.forEach((game) => {
+          //for each game in the request data
+          events = []; //empty the events array
+          events.push({
+            //push relevant info to array to use for cards
+            event_id: game.event_id,
+            team1: game.teams[0].name,
+            team2: game.teams[1].name,
+            team1_abbrev: game.teams_normalized[0].abbreviation,
+            team2_abbrev: game.teams_normalized[1].abbreviation,
+            score1: game.score.score_away,
+            score2: game.score.score_home,
+            status: game.score.event_status,
+          });
+          console.log(events);
+        });
         // if (
         //   this.winner == "away" &&
         //   res.body.events[0].score.winner_away == 1
