@@ -1,22 +1,40 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <Header v-bind:URL="URL" v-bind:loggedIn="loggedIn" @logout="logout" />
+    <div id="page-container">
+      <div id="wrap">
+        <div id="nav">
+          <Header
+            v-bind:URL="URL"
+            v-bind:loggedIn="loggedIn"
+            @logout="logout"
+          />
+        </div>
+        <router-view @loggedIn="login($event)" :token="token" />
+      </div>
+      <footer id="footer">
+        <div class="content has-text-centered">
+          <p>
+            <strong style="color: #812286">Bid ball</strong> © 2020 William
+            Clavell |
+            <a href="https://wjclavell.com">Portfolio |</a>
+            <a href="http://opensource.org/licenses/mit-license.php"> Github </a
+            >|
+          </p>
+        </div>
+      </footer>
     </div>
-    <router-view @loggedIn="login($event)" :token="token" />
-    <Footer />
   </div>
 </template>
 
 <script>
 import Header from "./components/Header";
-import Footer from "./components/Footer";
+// import Footer from "./components/Footer";
 
 export default {
   name: "App",
   components: {
     Header,
-    Footer,
+    // Footer,
   },
   data: function() {
     return {
@@ -55,6 +73,23 @@ export default {
   text-align: center;
   color: #2c3e50;
   background-color: #f5f5f5;
+  min-height: 100vh;
+}
+
+#page-container {
+  position: relative;
+  min-height: 100vh;
+}
+
+#wrap {
+  padding-bottom: 2em;
+}
+
+#footer {
+  position: absolute;
+  width: 100%;
+  height: 2em;
+  bottom: 0;
 }
 
 #nav {
