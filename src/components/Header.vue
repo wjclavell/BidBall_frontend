@@ -116,7 +116,7 @@ export default {
 #user-profile-pic {
   width: 30px;
   height: 30px;
-  border: 2px solid #278338;
+  border: 2px solid #7bc473;
   border-radius: 50%;
   transform: scale(1.5);
   margin-right: 1.5em;
