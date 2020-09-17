@@ -8,10 +8,10 @@
       </template>
       <template slot="start">
         <b-navbar-item href="#">
-          <router-link to="/">Home</router-link>
+          <router-link v-if="loggedIn" to="/main">Home</router-link>
         </b-navbar-item>
         <b-navbar-item href="#">
-          <router-link to="/profile">Profile</router-link>
+          <router-link v-if="loggedIn" to="/profile">Profile</router-link>
         </b-navbar-item>
         <!-- <b-navbar-dropdown label="Info">
           <b-navbar-item href="#">About</b-navbar-item>
