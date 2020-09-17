@@ -12,7 +12,9 @@
 </template>
 
 <script>
+require("dotenv").config();
 const unirest = require("unirest"); // unirest library used to make requests to 'the rundown' api
+const KEY = process.env.VUE_APP_API_KEY;
 
 export default {
   name: "Main",
@@ -21,11 +23,13 @@ export default {
   data: function() {
     return {
       URL: "http://localhost:8000/",
+      rundown: "https://therundown-therundown-v1.p.rapidapi.com/",
       winner: "away",
       date: new Date() //convert today's date to yyyy-mm-dd format, used to get today's games
         .toJSON()
         .slice(0, 10)
         .replace(/-/g, "/"),
+      sport_id: null, // sport_id will be determined by what category the user clicks on
     };
   },
   methods: {
@@ -36,7 +40,7 @@ export default {
 
       let req = unirest(
         "GET",
-        "https://therundown-therundown-v1.p.rapidapi.com/sports/3/events/2020-09-16"
+        `${this.rundown}/sports/${this.sport_id}/events/${this.date}`
       );
 
       req.query({
@@ -46,7 +50,7 @@ export default {
 
       req.headers({
         "x-rapidapi-host": "therundown-therundown-v1.p.rapidapi.com",
-        "x-rapidapi-key": "44d40d3cbfmsh8e33a571ba5cc18p1c5131jsn6c6e002bb94e",
+        "x-rapidapi-key": KEY, // TODO make this a variable
         useQueryString: true,
       });
 
@@ -59,8 +63,9 @@ export default {
         console.log(
           "teams playing: ",
           "Away: ",
-          res.body.events[0].teams[0].name,
-          res.body.events[0].score.score_away,
+          // first team wil always be the away team
+          res.body.events[0].teams[0].name, //team name
+          res.body.events[0].score.score_away, //team score
           "Home: ",
           res.body.events[0].teams[1].name,
           res.body.events[0].score.score_home
@@ -89,7 +94,7 @@ export default {
 
       req.headers({
         "x-rapidapi-host": "therundown-therundown-v1.p.rapidapi.com",
-        "x-rapidapi-key": "44d40d3cbfmsh8e33a571ba5cc18p1c5131jsn6c6e002bb94e",
+        "x-rapidapi-key": KEY,
         useQueryString: true,
       });
 
