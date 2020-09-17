@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png" />
+    <img alt="bidball wordmark" src="../assets/bidball_wordmark.png" />
     <HelloWorld msg="Welcome to Your Vue.js App" />
     <br />
     <h1>

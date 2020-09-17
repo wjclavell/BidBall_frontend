@@ -1,6 +1,10 @@
 <template>
   <div class="main">
-    <button class="button is-primary get" @click="dataWorking">
+    <button
+      class="button is-primary"
+      style="background-color: #7bc473"
+      @click="dataWorking"
+    >
       Show the events!
     </button>
     <!-- WILL MAKE A TEMPLATE CARD AND LOOP THROUGH EACH EVENT TO CREATE THE CARDS FOR ALL DATA FROM REQUEST -->
@@ -105,7 +109,5 @@ export default {
 <style>
 .main {
   height: 100vh;
-}
-.get {
 }
 </style>

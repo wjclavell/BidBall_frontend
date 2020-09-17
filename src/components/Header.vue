@@ -2,8 +2,19 @@
   <div class="header">
     <b-navbar style="border-bottom: .25em solid #812286">
       <template slot="brand">
-        <b-navbar-item tag="router-link" to="/">
-          <img src="../assets/bidball_purpleemblem.png" id="bblogo" alt="Bid Ball emblem logo" />
+        <b-navbar-item v-if="!loggedIn" tag="router-link" to="/">
+          <img
+            src="../assets/bidball_purpleemblem.png"
+            id="bblogo"
+            alt="Bid Ball emblem logo"
+          />
+        </b-navbar-item>
+        <b-navbar-item v-if="loggedIn" tag="router-link" to="/main">
+          <img
+            src="../assets/bidball_purpleemblem.png"
+            id="bblogo"
+            alt="Bid Ball emblem logo"
+          />
         </b-navbar-item>
       </template>
       <template slot="start">
@@ -21,7 +32,11 @@
       <template slot="end">
         <b-navbar-item tag="div">
           <div class="buttons">
-            <button v-if="!loggedIn" class="button is-light" style="background: none">
+            <button
+              v-if="!loggedIn"
+              class="button is-light"
+              style="background: none"
+            >
               <router-link id="login" to="/login">Log in</router-link>
             </button>
             <button
@@ -32,8 +47,15 @@
             >
               <router-link id="logout" to="/">Log out</router-link>
             </button>
-            <button v-if="!loggedIn" class="button is-primary" style="background-color: #7bc473">
-              <router-link style="color: white; background-color: transparent" to="/signup">
+            <button
+              v-if="!loggedIn"
+              class="button is-primary"
+              style="background-color: #7bc473"
+            >
+              <router-link
+                style="color: white; background-color: transparent"
+                to="/signup"
+              >
                 <strong id="join">Join</strong>
               </router-link>
             </button>
@@ -59,7 +81,7 @@ export default {
   name: "Header",
   props: ["URL", "loggedIn"],
   methods: {
-    logout: function () {
+    logout: function() {
       this.$emit("logout");
     },
   },

@@ -14,9 +14,10 @@
             Example
           </h3>
           <p>
-            This is meant to be an example of using Buefy, we just take Buefy
-            sample code and make it into a individual component file like this
-            we can import into our other components.
+            This will be the user profile page.<br />It'll include the user's
+            profile pic, info, coin balance, record of correct/incorrect, and
+            the ability to update their favorite sport/teams<br />also the
+            ability to delete their account.
           </p>
         </div>
       </div>
