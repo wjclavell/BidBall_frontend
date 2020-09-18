@@ -65,7 +65,7 @@
           <router-link to="/profile">
             <img
               v-if="loggedIn"
-              src="https://res.cloudinary.com/wjclavell/image/upload/v1600292929/P4/bidball_default-user_lrcu7s.png"
+              :src="user.profile_pic"
               id="user-profile-pic"
               alt="default user"
             />
@@ -79,10 +79,11 @@
 <script>
 export default {
   name: "Header",
-  props: ["url", "loggedIn"],
+  props: ["url", "loggedIn", "user"],
   data: function() {
     return {
       URL: this.url,
+      user_info: this.user,
     };
   },
   methods: {

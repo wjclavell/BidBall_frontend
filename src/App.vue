@@ -6,14 +6,11 @@
           <Header
             v-bind:url="URL"
             v-bind:loggedIn="loggedIn"
+            v-bind:user="user"
             @logout="logout"
           />
         </div>
-        <router-view
-          @loggedIn="login($event)"
-          v-bind:url="URL"
-          :token="token"
-        />
+        <router-view @loggedIn="login($event)" :url="URL" :user="user" />
       </div>
       <footer id="footer">
         <div class="content has-text-centered">
@@ -45,14 +42,17 @@ export default {
       loggedIn: false,
       token: "",
       URL: "http://localhost:8000/",
+      user: null,
     };
   },
   methods: {
     login: function(event) {
       console.log("event heard: ");
       this.loggedIn = true;
-      this.token = event.token;
-      console.log(this.token);
+      this.user = event;
+      console.log(
+        `User info: token: ${this.user.token}, username: ${this.user.username}, fav sport: ${this.user.correct}`
+      );
       this.$router.push("/main");
     },
     logout: function() {

@@ -50,29 +50,29 @@
     </button>
     <!-- WILL MAKE A TEMPLATE CARD AND LOOP THROUGH EACH EVENT TO CREATE THE CARDS FOR ALL DATA FROM REQUEST -->
     <div class="event-container">
-      <div class="game-card" v-for="game in this.events" :key="game">
+      <div class="game-card" v-for="item in this.events" :key="item.game">
         <div class="teams">
           <div class="team">
-            <h4>{{ game.team1 }}</h4>
+            <h4>{{ item.game.team1 }}</h4>
           </div>
           <div class="team">
-            <h4>{{ game.team2 }}</h4>
+            <h4>{{ item.game.team2 }}</h4>
           </div>
         </div>
         <div class="scores">
-          <h2>{{ game.score1 }}</h2>
-          <h2>{{ game.score2 }}</h2>
+          <h2>{{ item.game.score1 }}</h2>
+          <h2>{{ item.game.score2 }}</h2>
         </div>
         <div class="bid-input">
-          <div v-if="game.status === 'STATUS_SCHEDULED'" class="block">
+          <div v-if="item.game.status === 'STATUS_SCHEDULED'" class="block">
             <b-radio v-model="pick" native-value="away">
-              {{ game.team1_abbrev }}
+              {{ item.game.team1_abbrev }}
             </b-radio>
             <b-radio v-model="pick" native-value="home">
-              {{ game.team2_abbrev }}
+              {{ item.game.team2_abbrev }}
             </b-radio>
           </div>
-          <b-field v-if="game.status === 'STATUS_SCHEDULED'">
+          <b-field v-if="item.game.status === 'STATUS_SCHEDULED'">
             <p class="control">
               <span class="button is-static coin-holder"
                 ><img id="game-bit" src="../assets/bidball_greenemblem.png"
@@ -81,13 +81,14 @@
             <b-input
               v-model="amount"
               type="number"
+              min="0"
               placeholder="Amount"
             ></b-input>
           </b-field>
-          <b-field v-if="game.status === 'STATUS_SCHEDULED'">
+          <b-field v-if="item.game.status === 'STATUS_SCHEDULED'">
             <p class="control">
               <button
-                @click="placeBid(game.event_id)"
+                @click="placeBid(item.game)"
                 class="button"
                 style="background-color: #7bc473; color: white;"
               >
@@ -95,7 +96,9 @@
               </button>
             </p>
           </b-field>
-          <h1 v-if="game.status != 'STATUS_SCHEDULED'">Game in progress</h1>
+          <h1 v-if="item.game.status != 'STATUS_SCHEDULED'">
+            Game in progress
+          </h1>
         </div>
       </div>
     </div>
@@ -110,7 +113,7 @@ const KEY = process.env.VUE_APP_API_KEY;
 //sample data
 let juegos = [
   {
-    event_id: "cfcb881774035cb5da1a01bcd1464b74",
+    event_id: "cf81774035cb5da1a01bcd1464b74",
     sport_id: 3,
     event_date: "2020-09-17T17:10:00Z",
     rotation_number_away: 923,
@@ -152,14 +155,14 @@ let juegos = [
     ],
   },
   {
-    event_id: "f89fcb881a1a01bcd1464t",
+    event_id: "f89fcb881a1a0ggg1bcd1464t",
     sport_id: 3,
     event_date: "2020-09-17T17:10:00Z",
     rotation_number_away: 923,
     rotation_number_home: 924,
     score: {
       event_id: "f89fcb881a1a01bcd1464b74",
-      event_status: "STATUS_FINAL",
+      event_status: "STATUS_SCHEDULED",
       score_away: 3,
       score_home: 2,
       winner_away: 1,
@@ -201,7 +204,7 @@ let juegos = [
     rotation_number_home: 924,
     score: {
       event_id: "122f89fcb881a1a01bcd1464b74poop",
-      event_status: "STATUS_IN_PROGRESS",
+      event_status: "STATUS_SCHEDULED",
       score_away: 1,
       score_home: 4,
       winner_away: 0,
@@ -236,7 +239,7 @@ let juegos = [
     ],
   },
   {
-    event_id: "redb881774035cb5da1a01bcd1464b74one",
+    event_id: "redb881774035cb5da1a01bWAScd1464b74one",
     sport_id: 3,
     event_date: "2020-09-17T17:10:00Z",
     rotation_number_away: 923,
@@ -617,10 +620,10 @@ let juegos = [
 
 export default {
   name: "Main",
-  props: ["token", "url"],
+  props: ["user", "url"],
   data: function() {
     return {
-      BBurl: this.url, //url for local api
+      URL: this.url, //url for local api
       rundown: "https://therundown-therundown-v1.p.rapidapi.com", //url for external api
       pick: "",
       event_id: "",
@@ -635,7 +638,7 @@ export default {
       // team2: "",
       // score1: "",
       // score2: "",
-      user_token: this.token,
+      user_info: this.user,
     };
   },
   computed: {},
@@ -684,15 +687,18 @@ export default {
         res.body.events.forEach((game) => {
           //for each game in the request data
           event_list.push({
-            //push relevant info to array to use for cards
-            event_id: game.event_id,
-            team1: game.teams[0].name,
-            team2: game.teams[1].name,
-            team1_abbrev: game.teams_normalized[0].abbreviation,
-            team2_abbrev: game.teams_normalized[1].abbreviation,
-            score1: game.score.score_away,
-            score2: game.score.score_home,
-            status: game.score.event_status,
+            game: {
+              //push relevant info to array to use for cards
+              event_id: game.event_id,
+              sport_id: game.sport_id,
+              team1: game.teams[0].name,
+              team2: game.teams[1].name,
+              team1_abbrev: game.teams_normalized[0].abbreviation,
+              team2_abbrev: game.teams_normalized[1].abbreviation,
+              score1: game.score.score_away,
+              score2: game.score.score_home,
+              status: game.score.event_status,
+            },
           });
         });
         console.log(event_list);
@@ -730,36 +736,91 @@ export default {
         console.log(res.body);
       });
     },
-    dataWorking: function() {
-      // checking if variables are correct
-      console.log(this.pick, this.date);
-    },
     sampleData: function() {
       this.events = [];
       juegos.forEach((game) => {
         this.events.push({
-          event_id: game.event_id,
-          team1: game.teams[0].name,
-          team2: game.teams[1].name,
-          team1_abbrev: game.teams[0].abbreviation,
-          team2_abbrev: game.teams[1].abbreviation,
-          score1: game.score.score_away,
-          score2: game.score.score_home,
-          status: game.score.event_status,
+          game: {
+            event_id: game.event_id,
+            sport_id: game.sport_id,
+            team1: game.teams[0].name,
+            team2: game.teams[1].name,
+            team1_abbrev: game.teams[0].abbreviation,
+            team2_abbrev: game.teams[1].abbreviation,
+            score1: game.score.score_away,
+            score2: game.score.score_home,
+            status: game.score.event_status,
+          },
         });
       });
       console.log(this.events);
     },
+    // when user selects a sport category we will set the id to the sport_id and run the fetch request with the events for that sport
     pickSport: function() {
       this.sport_id = event.target.id;
       this.sampleData();
     },
-    //TODO this method will create a bid for the user based on the inputted pick, amount, and event_id
-    placeBid: function(id) {
-      this.event_id = id;
-      console.log(`bid pick: ${this.pick}`);
-      console.log(`bid amount: ${this.amount}`);
-      console.log(`event ID: ${this.event_id}`);
+    //TODO this method will create a bid for the user based on the inputted pick, amount, and event_id, might have to create the game as well first
+    placeBid: function(info) {
+      if (this.amount > this.user_info.balance / 2) {
+        alert(
+          `You currently have ${this.user_info.balance} coins, you can only bid up to half your current balance on a single game`
+        );
+      } else {
+        this.event_id = info.event_id;
+        console.log(`bid pick: ${this.pick}`);
+        console.log(`bid amount: ${this.amount}`);
+        console.log(`event ID: ${this.event_id}`);
+        console.log(info);
+        const newGame = JSON.stringify({
+          event_id: info.event_id,
+          sport: info.sport_id,
+          team1: info.team1,
+          team2: info.team2,
+          score1: info.score1,
+          score2: info.score2,
+        });
+        // fetch request from budgets#create route
+        fetch(`${this.URL}api/games/`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            // only if logged in
+            Authorization: `JWT ${this.user.token}`,
+          },
+          body: newGame,
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            console.log(data);
+
+            const newBid = JSON.stringify({
+              game: this.event_id,
+              event_id: info.event_id,
+              amount: this.amount,
+              team: this.pick,
+              result: "pending",
+            });
+            // fetch request from budgets#create route
+            fetch(`${this.URL}api/bids/`, {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                // only if logged in
+                Authorization: `JWT ${this.user.token}`,
+              },
+              body: newBid,
+            })
+              .then((response) => response.json())
+              .then((data) => {
+                this.event_id = "";
+                this.user_info.balance -= this.amount;
+                this.amount = null;
+                this.pick = "";
+                console.log(data);
+              });
+          });
+      }
     },
   },
 };

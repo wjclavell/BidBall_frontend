@@ -25,7 +25,7 @@
         ></b-input>
       </b-field>
       <b-field>
-        <b-select v-model="favoriteSport" placeholder="Favorite Sport">
+        <b-select v-model="favorite_league" placeholder="Favorite Sport">
           <option>Baseball</option>
           <option>Basketball</option>
           <option>Football</option>
@@ -43,19 +43,20 @@
 <script>
 export default {
   name: "Signup",
-  data: function () {
+  props: ["url"],
+  data: function() {
     return {
       firstName: "",
       lastName: "",
       email: "",
       username: "",
       password: "",
-      favoriteSport: "",
-      URL: "http://localhost:8000/",
+      favorite_league: "",
+      URL: this.url,
     };
   },
   methods: {
-    handleRegister: function () {
+    handleRegister: function() {
       fetch(`${this.URL}auth/users/register/`, {
         method: "post",
         headers: {
@@ -67,7 +68,7 @@ export default {
           email: this.email,
           firstName: this.firstName,
           lastName: this.lastName,
-          favoriteSport: this.favoriteSport,
+          favorite_league: this.favoriteSport,
         }),
       })
         .then((response) => {
