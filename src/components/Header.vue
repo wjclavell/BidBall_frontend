@@ -61,7 +61,18 @@
             </button>
           </div>
         </b-navbar-item>
-        <b-navbar-item tag="router-link" to="/">
+        <b-navbar-item>
+          <div id="balance">
+            <p v-if="loggedIn">{{ user.balance }}</p>
+            <img
+              v-if="loggedIn"
+              src="../assets/Gamebits.svg"
+              id="gamebits"
+              alt="default user"
+            />
+          </div>
+        </b-navbar-item>
+        <b-navbar-item>
           <router-link to="/profile">
             <img
               v-if="loggedIn"
@@ -118,6 +129,9 @@ export default {
 #login:hover,
 #logout:hover {
   color: #7bc473;
+}
+#balance p {
+  color: #50b963;
 }
 #user-profile-pic {
   width: 30px;

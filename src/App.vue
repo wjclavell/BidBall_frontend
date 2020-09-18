@@ -51,7 +51,7 @@ export default {
       this.loggedIn = true;
       this.user = event;
       console.log(
-        `User info: token: ${this.user.token}, username: ${this.user.username}, fav sport: ${this.user.correct}`
+        `User info: token: ${this.user.token}, username: ${this.user.username}, fav sport: ${this.user.favorite_league}`
       );
       this.$router.push("/main");
     },

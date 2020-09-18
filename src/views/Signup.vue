@@ -68,7 +68,7 @@ export default {
           email: this.email,
           firstName: this.firstName,
           lastName: this.lastName,
-          favorite_league: this.favoriteSport,
+          favorite_league: this.favorite_league,
         }),
       })
         .then((response) => {

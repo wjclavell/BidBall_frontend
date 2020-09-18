@@ -634,6 +634,7 @@ export default {
         .replace(/-/g, "-"),
       sport_id: null, // sport_id will be determined by what category the user clicks on
       events: [],
+      game_id: null, //used to assign bid to created game
       // team1: "",
       // team2: "",
       // score1: "",
@@ -792,10 +793,11 @@ export default {
         })
           .then((response) => response.json())
           .then((data) => {
-            console.log(data);
+            this.game_id = data.id;
+            console.log(`created game: `, data, data.id);
 
             const newBid = JSON.stringify({
-              game: this.event_id,
+              game: this.game_id,
               event_id: info.event_id,
               amount: this.amount,
               team: this.pick,
@@ -817,7 +819,7 @@ export default {
                 this.user_info.balance -= this.amount;
                 this.amount = null;
                 this.pick = "";
-                console.log(data);
+                console.log(`created bid: `, data);
               });
           });
       }
