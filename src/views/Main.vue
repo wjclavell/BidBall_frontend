@@ -44,11 +44,14 @@
     <button
       class="button is-primary"
       style="background-color: #7bc473"
-      @click="sampleData"
+      @click="getEvents"
     >
       Show the events!
     </button>
     <!-- WILL MAKE A TEMPLATE CARD AND LOOP THROUGH EACH EVENT TO CREATE THE CARDS FOR ALL DATA FROM REQUEST -->
+    <div v-if="no_games">
+      <h1 id="no-games"><strong>NO</strong> <span>GAMES</span> TODAY!</h1>
+    </div>
     <div class="event-container">
       <div class="game-card" v-for="item in this.events" :key="item.game">
         <div class="teams">
@@ -635,6 +638,7 @@ export default {
       sport_id: null, // sport_id will be determined by what category the user clicks on
       events: [],
       game_id: null, //used to assign bid to created game
+      no_games: false, //if there are no games today this will become true and display a message
       // team1: "",
       // team2: "",
       // score1: "",
@@ -650,6 +654,7 @@ export default {
       //* /sports/{sport_id}/events/{yyyy-mm-dd}?include={periods}&include={scores}&offset={240}
       this.events = []; //empty the array to get rid of any previous games
       let event_list = this.events;
+      // let none = this.no_games;
       let req = unirest(
         "GET",
         `${this.rundown}/sports/${this.sport_id}/events/${this.date}`
@@ -668,22 +673,14 @@ export default {
 
       req.end(function(res) {
         if (res.error) throw new Error(res.error);
-        //! something is wrong...i believe the cards are being created from the global array (which is empty) could work with global array but i dont think it is re-rendering the card-container when new data is added
-        //! other note, for some reason i can't access 'this'
         // stuff below was just testing if I could get and use the data
         console.log(res.body);
-        console.log("event ID: ", res.body.events[0].event_id);
-        console.log(
-          "teams playing: ",
-          "Away:",
-          // first team wil always be the away team
-          res.body.events[0].teams[0].name, //team name
-          res.body.events[0].score.score_away, //team score
-          " Home:",
-          res.body.events[0].teams[1].name,
-          res.body.events[0].score.score_home
-        );
-
+        // if (res.body.events.length === 0) {
+        //   console.log(none);
+        //   none = true;
+        //   console.log(none);
+        //   return none;
+        // }
         // event_list = []; //empty the events array
         res.body.events.forEach((game) => {
           //for each game in the request data
@@ -718,6 +715,7 @@ export default {
         //   console.log("RESULT: you lose!");
         // }
       });
+      // this.no_games = none;
     },
     getSports: function() {
       let req = unirest(
@@ -759,7 +757,7 @@ export default {
     // when user selects a sport category we will set the id to the sport_id and run the fetch request with the events for that sport
     pickSport: function() {
       this.sport_id = event.target.id;
-      this.sampleData();
+      this.getEvents();
     },
     //TODO this method will create a bid for the user based on the inputted pick, amount, and event_id, might have to create the game as well first
     placeBid: function(info) {
@@ -820,6 +818,7 @@ export default {
                 this.amount = null;
                 this.pick = "";
                 console.log(`created bid: `, data);
+                //TODO have to update the user after placing a bid, to actually change their balance permanently
               });
           });
       }
@@ -854,6 +853,12 @@ export default {
 .ball:hover {
   color: #50b963;
   cursor: pointer;
+}
+#no-games {
+  color: #812286;
+}
+#no-games span {
+  color: #7bc473;
 }
 .event-container {
   display: flex;
