@@ -6,7 +6,7 @@
           Baseball
         </h1>
         <b-icon
-          @click="category"
+          @click.native="sportID"
           class="ball"
           id="3"
           pack="fas"
@@ -19,7 +19,7 @@
           Basketball
         </h1>
         <b-icon
-          @click="category"
+          @click.native="sportID"
           class="ball"
           id="4"
           pack="fas"
@@ -32,7 +32,7 @@
           Football
         </h1>
         <b-icon
-          @click="category"
+          @click.native="sportID"
           class="ball"
           id="2"
           pack="fas"
@@ -47,17 +47,12 @@
 <script>
 export default {
   name: "Category",
-  data: function() {
-    return {
-      id: 2,
-    };
-  },
   methods: {
-    category: function() {
+    sportID: function() {
       // this.id = event.target.id;
       // console.log(this.id);
-      // this.$emit(this.id);
-      console.log("method is activated");
+      this.$emit("sportID", event.target.id);
+      console.log(`method is activated with id: ${event.target.id}`);
     },
   },
 };
@@ -87,5 +82,11 @@ export default {
 .ball:hover {
   color: #50b963;
   cursor: pointer;
+}
+
+@media only screen and (max-width: 700px) {
+  .labels {
+    display: none;
+  }
 }
 </style>

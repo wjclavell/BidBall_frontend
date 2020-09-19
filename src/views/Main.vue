@@ -1,46 +1,6 @@
 <template>
   <div class="main">
-    <div class="categories">
-      <div class="sport-wrap">
-        <h1 class="labels">
-          Baseball
-        </h1>
-        <b-icon
-          @click.native="pickSport"
-          class="ball"
-          id="3"
-          pack="fas"
-          icon="baseball-ball"
-          size="is-large"
-        ></b-icon>
-      </div>
-      <div class="sport-wrap">
-        <h1 class="labels">
-          Basketball
-        </h1>
-        <b-icon
-          @click.native="pickSport"
-          class="ball"
-          id="4"
-          pack="fas"
-          icon="basketball-ball"
-          size="is-large"
-        ></b-icon>
-      </div>
-      <div class="sport-wrap">
-        <h1 class="labels">
-          Football
-        </h1>
-        <b-icon
-          @click.native="pickSport"
-          class="ball"
-          id="2"
-          pack="fas"
-          icon="football-ball"
-          size="is-large"
-        ></b-icon>
-      </div>
-    </div>
+    <Category @sportID="pickSport($event)" />
     <button
       class="button is-primary"
       style="background-color: #7bc473"
@@ -109,7 +69,9 @@
 </template>
 
 <script>
+import Category from "../components/Category";
 require("dotenv").config();
+
 const unirest = require("unirest"); // unirest library used to make requests to 'the rundown' api
 const KEY = process.env.VUE_APP_API_KEY;
 
@@ -624,6 +586,7 @@ let juegos = [
 export default {
   name: "Main",
   props: ["user", "url"],
+  components: { Category },
   data: function() {
     return {
       URL: this.url, //url for local api
@@ -755,11 +718,11 @@ export default {
       console.log(this.events);
     },
     // when user selects a sport category we will set the id to the sport_id and run the fetch request with the events for that sport
-    pickSport: function() {
-      this.sport_id = event.target.id;
+    pickSport: function(id) {
+      this.sport_id = id;
       this.getEvents();
     },
-    //TODO this method will create a bid for the user based on the inputted pick, amount, and event_id, might have to create the game as well first
+    //this method will create a bid for the user based on the inputted pick, amount, and event_id
     placeBid: function(info) {
       if (this.amount > this.user_info.balance / 2) {
         alert(
@@ -779,7 +742,7 @@ export default {
           score1: info.score1,
           score2: info.score2,
         });
-        // fetch request from budgets#create route
+        // create a game in the db for this game
         fetch(`${this.URL}api/games/`, {
           method: "POST",
           headers: {
@@ -801,7 +764,7 @@ export default {
               team: this.pick,
               result: "pending",
             });
-            // fetch request from budgets#create route
+            // create the bid for this game
             fetch(`${this.URL}api/bids/`, {
               method: "POST",
               headers: {
@@ -818,7 +781,7 @@ export default {
                 this.amount = null;
                 this.pick = "";
                 console.log(`created bid: `, data);
-                //TODO have to update the user after placing a bid, to actually change their balance permanently
+                //after placing a bid, change user's balance permanently
                 const editUser = {
                   email: this.user.email,
                   username: this.user.username,
@@ -847,30 +810,6 @@ export default {
 <style>
 .main {
   height: 100vh;
-}
-.categories {
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  border-top: 2px solid #b1b1b1;
-  border-bottom: 2px solid #b1b1b1;
-  margin-bottom: 3em;
-}
-.sport-wrap {
-  display: flex;
-  align-items: center;
-  padding: 0.5em;
-}
-.labels {
-  font-size: 2em;
-  margin-right: 1em;
-}
-.ball {
-  color: #b1b1b1;
-}
-.ball:hover {
-  color: #50b963;
-  cursor: pointer;
 }
 #no-games {
   color: #812286;
