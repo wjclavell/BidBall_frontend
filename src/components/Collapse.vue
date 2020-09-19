@@ -20,7 +20,7 @@
       <div class="notification">
         <div class="content">
           <b-field label="Favorite Sport">
-            <b-select v-model="favorite_league" placeholder="Favorite Sport">
+            <b-select v-model="team" placeholder="Favorite Sport">
               <option>Baseball</option>
               <option>Basketball</option>
               <option>Football</option>
@@ -40,8 +40,20 @@
 </template>
 
 <script>
+// let teams = "76ers Bucks Bulls Cavaliers Celtics Clippers Grizzlies Hawks Heat Hornets Jazz Kings Knicks Lakers Magic Mavericks Nets Nuggets Pacers Pelicans Pistons Raptors Rockets Spurs Suns Thunder Timberwolves TrailBlazers Warriors Wizards"
+
 export default {
   name: "Collapse",
+  data: function() {
+    return {
+      team: "",
+    };
+  },
+  methods: {
+    addTeam: function() {
+      this.$emit("addFav", this.team);
+    },
+  },
 };
 </script>
 <style>

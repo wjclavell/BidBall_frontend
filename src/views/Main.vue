@@ -4,7 +4,7 @@
     <button
       class="button is-primary"
       style="background-color: #7bc473"
-      @click="getEvents"
+      @click="sampleData"
     >
       Show the events!
     </button>
@@ -725,9 +725,14 @@ export default {
     //this method will create a bid for the user based on the inputted pick, amount, and event_id
     placeBid: function(info) {
       if (this.amount > this.user_info.balance / 2) {
-        alert(
-          `You currently have ${this.user_info.balance} coins, you can only bid up to half your current balance on a single game`
-        );
+        this.$buefy.toast.open({
+          message: `You currently have ${this.user_info.balance} coins, you can only bid up to half your current balance on a single game`,
+          type: "is-danger",
+          duration: 4000,
+        });
+        // alert(
+        //   `You currently have ${this.user_info.balance} coins, you can only bid up to half your current balance on a single game`
+        // );
       } else {
         this.event_id = info.event_id;
         console.log(`bid pick: ${this.pick}`);
@@ -778,8 +783,6 @@ export default {
               .then((data) => {
                 this.event_id = "";
                 this.user_info.balance -= this.amount;
-                this.amount = null;
-                this.pick = "";
                 console.log(`created bid: `, data);
                 //after placing a bid, change user's balance permanently
                 const editUser = {
@@ -797,6 +800,13 @@ export default {
                 })
                   .then((response) => response.json())
                   .then((data) => {
+                    this.$buefy.toast.open({
+                      message: `Bid placed! You bid ${this.amount} coins, on the ${this.pick} team.`,
+                      type: "is-success",
+                      duration: 4000,
+                    });
+                    this.amount = null;
+                    this.pick = "";
                     console.log(data);
                     console.log("updated user:", this.user_info);
                   });

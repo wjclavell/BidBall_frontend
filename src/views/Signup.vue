@@ -76,7 +76,11 @@ export default {
         })
         .then((data) => {
           console.log(data);
-          alert("Sign up successful! Now login in to continue.");
+          this.$buefy.toast.open({
+            message: "Sign up successful! Now login in to continue.",
+            type: "is-success",
+            duration: 2000,
+          });
         });
     },
   },

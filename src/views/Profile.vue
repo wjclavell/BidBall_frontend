@@ -21,7 +21,7 @@
         <div class="fav-teams">
           <h4>
             Favorite Teams:
-            <span><Collapse /></span>
+            <span><Collapse @addFav="favorites($event)"/></span>
           </h4>
           <div class="team-container">
             <p>New York Yankees</p>
