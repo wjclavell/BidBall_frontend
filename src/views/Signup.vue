@@ -24,7 +24,7 @@
           minlength="8"
         ></b-input>
       </b-field>
-      <b-field>
+      <b-field label="Favorite Sport">
         <b-select v-model="favorite_league" placeholder="Favorite Sport">
           <option>Baseball</option>
           <option>Basketball</option>
