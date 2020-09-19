@@ -819,6 +819,24 @@ export default {
                 this.pick = "";
                 console.log(`created bid: `, data);
                 //TODO have to update the user after placing a bid, to actually change their balance permanently
+                const editUser = {
+                  email: this.user.email,
+                  username: this.user.username,
+                  balance: this.user_info.balance,
+                };
+                fetch(`${this.URL}auth/users/profile/`, {
+                  method: "PUT",
+                  headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `JWT ${this.user.token}`,
+                  },
+                  body: JSON.stringify(editUser),
+                })
+                  .then((response) => response.json())
+                  .then((data) => {
+                    console.log(data);
+                    console.log("updated user:", this.user_info);
+                  });
               });
           });
       }
