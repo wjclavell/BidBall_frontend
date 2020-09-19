@@ -10,7 +10,12 @@
             @logout="logout"
           />
         </div>
-        <router-view @loggedIn="login($event)" :url="URL" :user="user" />
+        <router-view
+          @loggedIn="login($event)"
+          @registered="signup($event)"
+          :url="URL"
+          :user="user"
+        />
       </div>
       <footer id="footer">
         <div class="content has-text-centered">
@@ -62,7 +67,7 @@ export default {
     signup: function(event) {
       console.log("registered!: ", event);
       this.loggedIn = true;
-      this.token = event.token;
+      this.user = event;
       this.$router.push("/main");
     },
   },

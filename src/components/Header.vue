@@ -134,10 +134,10 @@ export default {
   color: #50b963;
 }
 #user-profile-pic {
-  width: 30px;
+  width: 28px;
   height: 30px;
   border: 2px solid #50b963;
-  border-radius: 50%;
+  border-radius: 15px;
   transform: scale(1.5);
   margin-right: 1.5em;
 }
