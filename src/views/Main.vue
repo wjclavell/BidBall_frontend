@@ -625,7 +625,7 @@ export default {
 
       req.query({
         include: ["full-game", "scores"],
-        offset: "240",
+        offset: "360",
       });
 
       req.headers({

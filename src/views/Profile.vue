@@ -3,11 +3,38 @@
     <section class="dashboard">
       <div class="user-left">
         <h1 id="profile-header">{{ user_info.username }}</h1>
-        <img
-          :src="user_info.profile_pic"
-          id="profile-pic"
-          alt="profile picture"
-        />
+        <b-tooltip
+          label="Click to change picture"
+          position="is-right"
+          type="is-light"
+        >
+          <b-collapse :open="false" aria-id="contentIdForA11y1">
+            <img
+              :src="user_info.profile_pic"
+              id="profile-pic"
+              alt="profile picture"
+              slot="trigger"
+              aria-controls="contentIdForA11y1"
+            />
+            <div class="content">
+              <b-field label="Change Profile Picture" label-position="inside">
+                <b-input
+                  v-model="profile_pic"
+                  placeholder="Image URL"
+                ></b-input>
+                <p class="control">
+                  <button
+                    @click="changePic"
+                    class="button"
+                    style="background-color: #7bc473; color: white"
+                  >
+                    Change
+                  </button>
+                </p>
+              </b-field>
+            </div>
+          </b-collapse>
+        </b-tooltip>
         <h1 id="record">
           <span id="win">{{ user_info.correct }}</span> -
           <span id="loss">{{ user_info.incorrect }}</span>
@@ -21,13 +48,15 @@
         <div class="fav-teams">
           <h4>
             Favorite Teams:
-            <span><Collapse @addFav="favorites($event)"/></span>
+            <span
+              ><Collapse
+                :user_info="user"
+                :url="URL"
+                @addFav="favorites($event)"
+            /></span>
           </h4>
           <div class="team-container">
-            <p>New York Yankees</p>
-            <p>Miami Heat</p>
-            <p>Los Angeles Lakers</p>
-            <p>New York Giants</p>
+            <p>{{ user_info.favorite_teams }}</p>
           </div>
         </div>
       </div>
@@ -37,8 +66,8 @@
           <p>{{ user_info.balance }}</p>
           <img id="game-bit" src="../assets/bidball_greenemblem.png" />
         </div>
-        <h1>Recent Bids:</h1>
         <div class="bid-container">
+          <h1>Recent Bids:</h1>
           <ul>
             <li>
               2020-09-16 | <strong>30</strong> | NYY |
@@ -73,11 +102,58 @@ export default {
     return {
       user_info: this.user,
       URL: this.url,
+      profile_pic: "",
     };
   },
-  // methods: {
-  //   assignInfo
-  // }
+  methods: {
+    favorites: function(team) {
+      //update user favorite_teams field
+      this.user_info.favorite_teams.push(team);
+      const editUser = {
+        email: this.user.email,
+        username: this.user.username,
+        favorite_teams: this.user_info.favorite_teams,
+      };
+      fetch(`${this.URL}auth/users/profile/`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `JWT ${this.user.token}`,
+        },
+        body: JSON.stringify(editUser),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          console.log(data);
+        });
+    },
+    changePic: function() {
+      const editUser = {
+        email: this.user.email,
+        username: this.user.username,
+        profile_pic: this.profile_pic,
+      };
+      fetch(`${this.URL}auth/users/profile/`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `JWT ${this.user.token}`,
+        },
+        body: JSON.stringify(editUser),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          console.log(data);
+          this.profile_pic = "";
+          this.$buefy.toast.open({
+            message:
+              "Success! Profile picture change will be reflected on next sign in.",
+            type: "is-success",
+            duration: 4000,
+          });
+        });
+    },
+  },
 };
 </script>
 <style>
@@ -127,5 +203,37 @@ export default {
   flex-direction: column;
   justify-content: space-around;
   margin-bottom: 2em;
+}
+.fav-sport h4 {
+  font-weight: bold;
+}
+.fav-sport h1 {
+  font-size: 1.5em;
+  font-weight: bold;
+  color: #812286;
+}
+.fav-teams h4 {
+  font-weight: bold;
+}
+.user-right {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+.user-balance {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+}
+.user-balance h1 {
+  font-weight: bold;
+}
+.user-balance p {
+  font-size: 1.5em;
+  font-weight: bold;
+  color: #7bc473;
+}
+.bid-container {
+  height: 60%;
 }
 </style>

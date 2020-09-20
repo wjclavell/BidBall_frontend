@@ -22,6 +22,7 @@
           message="Password must be atleast 8 characters"
           type="password"
           minlength="8"
+          password-reveal
         ></b-input>
       </b-field>
       <b-field label="Favorite Sport">

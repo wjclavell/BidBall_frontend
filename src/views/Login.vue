@@ -5,7 +5,7 @@
         <b-input v-model="username" maxlength="30"></b-input>
       </b-field>
       <b-field class="lfields" label="Password" label-position="on-border">
-        <b-input v-model="password" type="password"></b-input>
+        <b-input v-model="password" type="password" password-reveal></b-input>
       </b-field>
       <a class="button is-primary" style="background-color: #7bc473">
         <!-- <router-link style="color: white; background-color: transparent" to="/"> -->

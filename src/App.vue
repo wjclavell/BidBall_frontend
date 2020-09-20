@@ -45,7 +45,6 @@ export default {
   data: function() {
     return {
       loggedIn: false,
-      token: "",
       URL: "http://localhost:8000/",
       user: null,
     };
@@ -62,7 +61,8 @@ export default {
     },
     logout: function() {
       this.loggedIn = false;
-      this.token = "";
+      this.user = "";
+      this.$router.push("/");
     },
     signup: function(event) {
       console.log("registered!: ", event);

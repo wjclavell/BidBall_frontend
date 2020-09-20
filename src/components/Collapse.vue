@@ -19,11 +19,9 @@
 
       <div class="notification">
         <div class="content">
-          <b-field label="Favorite Sport">
-            <b-select v-model="team" placeholder="Favorite Sport">
-              <option>Baseball</option>
-              <option>Basketball</option>
-              <option>Football</option>
+          <b-field label="Add your team">
+            <b-select v-model="team" placeholder="Favorite Team">
+              <option v-for="item in teamSelect" :key="item">{{ item }}</option>
             </b-select>
           </b-field>
           <button
@@ -40,12 +38,106 @@
 </template>
 
 <script>
-// let teams = "76ers Bucks Bulls Cavaliers Celtics Clippers Grizzlies Hawks Heat Hornets Jazz Kings Knicks Lakers Magic Mavericks Nets Nuggets Pacers Pelicans Pistons Raptors Rockets Spurs Suns Thunder Timberwolves TrailBlazers Warriors Wizards"
+let teams = [
+  "Arizona Cardinals",
+  "Atlanta Falcons",
+  "Baltimore Ravens",
+  "Buffalo Bills",
+  "Carolina Panthers",
+  "Chicago Bears",
+  "Cincinnati Bengals",
+  "Cleveland Browns",
+  "Dallas Cowboys",
+  "Denver Broncos",
+  "Detroit Lions",
+  "Green Bay Packers",
+  "Houston Texans",
+  "Indianapolis Colts",
+  "Jacksonville Jaguars",
+  "Kansas City Chiefs",
+  "Los Angeles Chargers",
+  "Los Angeles Rams",
+  "Miami Dolphins",
+  "Minnesota Vikings",
+  "New England Patriots",
+  "New Orleans Saints",
+  "New York Giants",
+  "New York Jets",
+  "Oakland Raiders",
+  "Philadelphia Eagles",
+  "Pittsburgh Steelers",
+  "San Francisco 49ers",
+  "Seattle Seahawks",
+  "Tampa Bay Buccaneers",
+  "Tennessee Titans",
+  "Washington Redskins",
+  "Arizona Diamondbacks",
+  "Atlanta Braves",
+  "Baltimore Orioles",
+  "Boston Red Sox",
+  "Chicago White Sox",
+  "Chicago Cubs",
+  "Cincinnati Reds",
+  "Cleveland Indians",
+  "Colorado Rockies",
+  "Detroit Tigers",
+  "Houston Astros",
+  "Kansas City Royals",
+  "Los Angeles Angels",
+  "Los Angeles Dodgers",
+  "Miami Marlins",
+  "Milwaukee Brewers",
+  "Minnesota Twins",
+  "New York Yankees",
+  "New York Mets",
+  "Oakland Athletics",
+  "Philadelphia Phillies",
+  "Pittsburgh Pirates",
+  "San Diego Padres",
+  "San Francisco Giants",
+  "Seattle Mariners",
+  "St. Louis Cardinals",
+  "Tampa Bay Rays",
+  "Texas Rangers",
+  "Toronto Blue Jays",
+  "Washington Nationals",
+  "Atlanta Hawks",
+  "Boston Celtics",
+  "Brooklyn Nets",
+  "Charlotte Hornets",
+  "Chicago Bulls",
+  "Cleveland Cavaliers",
+  "Dallas Mavericks",
+  "Denver Nuggets",
+  "Detroit Pistons",
+  "Golden State Warriors",
+  "Houston Rockets",
+  "Indiana Pacers",
+  "Los Angeles Clippers",
+  "Los Angeles Lakers",
+  "Memphis Grizzlies",
+  "Miami Heat",
+  "Milwaukee Bucks",
+  "Minnesota Timberwolves",
+  "New Orleans Pelicans",
+  "New York Knicks",
+  "Oklahoma City Thunder",
+  "Orlando Magic",
+  "Philadelphia 76ers",
+  "Phoenix Suns",
+  "Portland Trail Blazers",
+  "Sacramento Kings",
+  "San Antonio Spurs",
+  "Toronto Raptors",
+  "Utah Jazz",
+  "Washington Wizards",
+];
 
 export default {
   name: "Collapse",
   data: function() {
     return {
+      teamSelect: teams.sort(),
       team: "",
     };
   },
