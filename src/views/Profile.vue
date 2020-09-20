@@ -71,17 +71,12 @@
         <div class="bid-container">
           <h1>Recent Bids:</h1>
           <ul>
-            <li>
-              2020-09-16 | <strong>30</strong> | NYY |
-              <strong><u>W</u></strong>
-            </li>
-            <li>
-              2020-09-16 | <strong>25</strong> | MIA |
-              <strong><u>W</u></strong>
-            </li>
-            <li>
-              2020-09-15 | <strong>25</strong> | BAL |
-              <strong><u>L</u></strong>
+            <li v-for="bid in userBids" :key="bid">
+              {{ bid.created_at.substring(0, 10) }} |
+              <strong>{{ bid.amount }}</strong> | {{ bid.team }} |
+              <strong
+                ><u>{{ bid.result }}</u></strong
+              >
             </li>
           </ul>
         </div>
@@ -90,6 +85,7 @@
     <a id="delete-account" @click="confirmDelete">
       delete account
     </a>
+    <a id="userbids" @click="getBids">BIDS</a>
   </div>
 </template>
 
@@ -108,6 +104,7 @@ export default {
       user_info: this.user,
       URL: this.url,
       profile_pic: "",
+      userBids: "",
     };
   },
   methods: {
@@ -174,6 +171,21 @@ export default {
         this.$buefy.toast.open("Account deleted!");
         this.$emit("logout", response);
       });
+    },
+    getBids: function() {
+      fetch(`${this.URL}api/bids/`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          // only if logged in
+          Authorization: `JWT ${this.user.token}`,
+        },
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          this.userBids = data.results;
+          console.log(data.results);
+        });
     },
   },
 };

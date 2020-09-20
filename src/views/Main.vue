@@ -611,12 +611,23 @@ export default {
         focusOnSelect: true,
         infinite: true,
         speed: 500,
-        slidesToShow: 4,
-        slidesToScroll: 4,
+        slidesToShow: 5,
+        slidesToScroll: 5,
         touchThreshold: 5,
+        nextArrow: '<i class="far fa-arrow-alt-circle-right"></i>',
+        prevArrow: '<i class="far fa-arrow-alt-circle-left"></i>',
         responsive: [
           {
-            breakpoint: 1024,
+            breakpoint: 1100,
+            settings: {
+              slidesToShow: 4,
+              slidesToScroll: 4,
+              infinite: true,
+              dots: true,
+            },
+          },
+          {
+            breakpoint: 800,
             settings: {
               slidesToShow: 3,
               slidesToScroll: 3,
@@ -633,7 +644,7 @@ export default {
             },
           },
           {
-            breakpoint: 480,
+            breakpoint: 450,
             settings: {
               slidesToShow: 1,
               slidesToScroll: 1,
@@ -663,6 +674,7 @@ export default {
       //parameters after 'date' are optional
       //* /sports/{sport_id}/events/{yyyy-mm-dd}?include={periods}&include={scores}&offset={240}
       this.events = []; //empty the array to get rid of any previous games
+      this.eventsObtained = false;
       let event_list = this.events;
       let self = this;
       // let none = this.no_games;
@@ -749,6 +761,7 @@ export default {
     },
     sampleData: function() {
       this.events = [];
+      this.eventsObtained = false;
       juegos.forEach((game) => {
         this.events.push({
           game: {
@@ -878,7 +891,7 @@ export default {
   color: #7bc473;
 }
 .event-container {
-  margin: 2em;
+  margin: 3em;
 }
 .game-card {
   background-color: white;
@@ -886,20 +899,19 @@ export default {
   flex-direction: column;
   justify-content: space-between;
   padding: 0.5em;
+  margin-bottom: 0.5em;
   border-radius: 2em;
-  margin: 1em;
   box-shadow: 0 4px 7px #b1b1b1;
-  box-sizing: border-box;
 }
 .teams,
 .scores {
   display: flex;
-  justify-content: space-evenly;
+  justify-content: space-between;
   margin: 1em;
 }
 .scores {
   font-size: 2em;
-  margin: 0 1em;
+  margin: 0 1.5em;
   color: #812286;
 }
 .bid-input {
