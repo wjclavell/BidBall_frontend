@@ -13,6 +13,7 @@
         <router-view
           @loggedIn="login($event)"
           @registered="signup($event)"
+          @reassign="reassign($event)"
           :url="URL"
           :user="user"
         />
@@ -51,24 +52,24 @@ export default {
   },
   methods: {
     login: function(event) {
-      console.log("event heard: ");
       this.loggedIn = true;
       this.user = event;
-      console.log(
-        `User info: token: ${this.user.token}, username: ${this.user.username}, fav sport: ${this.user.favorite_league}`
-      );
+      this.$cookies.set("user", this.user);
       this.$router.push("/main");
     },
     logout: function() {
       this.loggedIn = false;
       this.user = "";
+      this.$cookies.remove("user");
       this.$router.push("/");
     },
     signup: function(event) {
-      console.log("registered!: ", event);
       this.loggedIn = true;
       this.user = event;
       this.$router.push("/main");
+    },
+    reassign: function(event) {
+      this.user = event;
     },
   },
 };

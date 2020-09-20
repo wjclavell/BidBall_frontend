@@ -48,11 +48,14 @@ export default {
           }
         })
         .then((data) => {
-          console.log(data);
           if (data) {
             this.$emit("loggedIn", data);
           } else {
-            alert("Username or Password is incorrect");
+            this.$buefy.toast.open({
+              message: "Username or password is incorrect",
+              type: "is-danger",
+              duration: 2000,
+            });
           }
         });
     },

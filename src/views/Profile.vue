@@ -56,7 +56,9 @@
             /></span>
           </h4>
           <div class="team-container">
-            <p>{{ user_info.favorite_teams }}</p>
+            <p v-for="item in user_info.favorite_teams" :key="item">
+              {{ item }}
+            </p>
           </div>
         </div>
       </div>
@@ -106,6 +108,7 @@ export default {
     };
   },
   methods: {
+    //! for some reason this method only works after u change your picture...
     favorites: function(team) {
       //update user favorite_teams field
       this.user_info.favorite_teams.push(team);
@@ -121,11 +124,7 @@ export default {
           Authorization: `JWT ${this.user.token}`,
         },
         body: JSON.stringify(editUser),
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          console.log(data);
-        });
+      }).then((response) => response.json());
     },
     changePic: function() {
       const editUser = {
@@ -145,12 +144,22 @@ export default {
         .then((data) => {
           console.log(data);
           this.profile_pic = "";
-          this.$buefy.toast.open({
-            message:
-              "Success! Profile picture change will be reflected on next sign in.",
-            type: "is-success",
-            duration: 4000,
-          });
+          this.user_info = data;
+          this.$emit("reassign", data);
+        });
+    },
+    deleteAccount: function() {
+      fetch(`${this.URL}/auth/users/profile`, {
+        method: "DELETE",
+        headers: {
+          "Content-type": "application/json",
+          Authorization: `JWT ${this.user_info.token}`,
+        },
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          console.log(data);
+          alert("your account has been deleted! OMG");
         });
     },
   },
