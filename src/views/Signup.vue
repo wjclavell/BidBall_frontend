@@ -92,6 +92,10 @@ export default {
 #signup-page {
   height: 100vh;
 }
+#signup-page h1 {
+  color: #50b963;
+  font-weight: bold;
+}
 .signup-form {
   padding: 2em;
   display: flex;

@@ -86,10 +86,10 @@
           </ul>
         </div>
       </div>
-      <button class="button is-danger" @click="confirmDelete">
-        delete account
-      </button>
     </section>
+    <a id="delete-account" @click="confirmDelete">
+      delete account
+    </a>
   </div>
 </template>
 
@@ -257,5 +257,8 @@ export default {
 }
 .bid-container {
   height: 60%;
+}
+#delete-account {
+  color: red;
 }
 </style>

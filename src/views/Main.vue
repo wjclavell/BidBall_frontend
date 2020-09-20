@@ -12,7 +12,11 @@
     <div v-if="no_games">
       <h1 id="no-games"><strong>NO</strong> <span>GAMES</span> TODAY!</h1>
     </div>
-    <div class="event-container">
+    <VueSlickCarousel
+      class="event-container"
+      v-if="eventsObtained"
+      v-bind="settings"
+    >
       <div class="game-card" v-for="item in this.events" :key="item.game">
         <div class="teams">
           <div class="team">
@@ -59,17 +63,24 @@
               </button>
             </p>
           </b-field>
-          <h1 v-if="item.game.status != 'STATUS_SCHEDULED'">
+          <h1 id="in-progress" v-if="item.game.status === 'STATUS_IN_PROGRESS'">
             Game in progress
+          </h1>
+          <h1 id="final" v-if="item.game.status === 'STATUS_FINAL'">
+            Game Finished
           </h1>
         </div>
       </div>
-    </div>
+    </VueSlickCarousel>
   </div>
 </template>
 
 <script>
 import Category from "../components/Category";
+import VueSlickCarousel from "vue-slick-carousel";
+import "vue-slick-carousel/dist/vue-slick-carousel.css";
+// optional style for arrows & dots
+import "vue-slick-carousel/dist/vue-slick-carousel-theme.css";
 require("dotenv").config();
 
 const unirest = require("unirest"); // unirest library used to make requests to 'the rundown' api
@@ -586,7 +597,7 @@ let juegos = [
 export default {
   name: "Main",
   props: ["user", "url"],
-  components: { Category },
+  components: { Category, VueSlickCarousel },
   data: function() {
     return {
       URL: this.url, //url for local api
@@ -594,6 +605,42 @@ export default {
       pick: "",
       event_id: "",
       amount: null,
+      eventsObtained: false,
+      settings: {
+        dots: true,
+        focusOnSelect: true,
+        infinite: true,
+        speed: 500,
+        slidesToShow: 4,
+        slidesToScroll: 4,
+        touchThreshold: 5,
+        responsive: [
+          {
+            breakpoint: 1024,
+            settings: {
+              slidesToShow: 3,
+              slidesToScroll: 3,
+              infinite: true,
+              dots: true,
+            },
+          },
+          {
+            breakpoint: 600,
+            settings: {
+              slidesToShow: 2,
+              slidesToScroll: 2,
+              initialSlide: 2,
+            },
+          },
+          {
+            breakpoint: 480,
+            settings: {
+              slidesToShow: 1,
+              slidesToScroll: 1,
+            },
+          },
+        ],
+      },
       date: new Date() //convert today's date to yyyy-mm-dd format, used to get today's games
         .toJSON()
         .slice(0, 10)
@@ -617,6 +664,7 @@ export default {
       //* /sports/{sport_id}/events/{yyyy-mm-dd}?include={periods}&include={scores}&offset={240}
       this.events = []; //empty the array to get rid of any previous games
       let event_list = this.events;
+      let self = this;
       // let none = this.no_games;
       let req = unirest(
         "GET",
@@ -647,7 +695,7 @@ export default {
         // event_list = []; //empty the events array
         res.body.events.forEach((game) => {
           //for each game in the request data
-          event_list.push({
+          self.events.push({
             game: {
               //push relevant info to array to use for cards
               event_id: game.event_id,
@@ -662,6 +710,7 @@ export default {
             },
           });
         });
+        self.eventsObtained = true;
         console.log(event_list);
         return event_list;
         // if (
@@ -715,6 +764,7 @@ export default {
           },
         });
       });
+      this.eventsObtained = true;
       console.log(this.events);
     },
     // when user selects a sport category we will set the id to the sport_id and run the fetch request with the events for that sport
@@ -828,11 +878,7 @@ export default {
   color: #7bc473;
 }
 .event-container {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-around;
-  margin: 1em;
-  height: 300px;
+  margin: 2em;
 }
 .game-card {
   background-color: white;
@@ -840,10 +886,10 @@ export default {
   flex-direction: column;
   justify-content: space-between;
   padding: 0.5em;
-  width: 225px;
   border-radius: 2em;
   margin: 1em;
   box-shadow: 0 4px 7px #b1b1b1;
+  box-sizing: border-box;
 }
 .teams,
 .scores {
@@ -865,5 +911,11 @@ export default {
 #game-bit {
   height: 2em;
   width: 2em;
+}
+#in-progress {
+  color: #7bc473;
+}
+#final {
+  color: #d997c3;
 }
 </style>
