@@ -86,6 +86,9 @@
           </ul>
         </div>
       </div>
+      <button class="button is-danger" @click="confirmDelete">
+        delete account
+      </button>
     </section>
   </div>
 </template>
@@ -112,6 +115,7 @@ export default {
     favorites: function(team) {
       //update user favorite_teams field
       this.user_info.favorite_teams.push(team);
+      this.user_info.favorite_teams;
       const editUser = {
         email: this.user.email,
         username: this.user.username,
@@ -148,19 +152,28 @@ export default {
           this.$emit("reassign", data);
         });
     },
+    confirmDelete: function() {
+      this.$buefy.dialog.confirm({
+        title: "Deleting account",
+        message:
+          "Are you sure you want to <b>delete</b> your account? This action cannot be undone.",
+        confirmText: "Delete Account",
+        type: "is-danger",
+        hasIcon: true,
+        onConfirm: () => this.deleteAccount(),
+      });
+    },
     deleteAccount: function() {
-      fetch(`${this.URL}/auth/users/profile`, {
+      fetch(`${this.URL}auth/users/profile`, {
         method: "DELETE",
         headers: {
           "Content-type": "application/json",
           Authorization: `JWT ${this.user_info.token}`,
         },
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          console.log(data);
-          alert("your account has been deleted! OMG");
-        });
+      }).then((response) => {
+        this.$buefy.toast.open("Account deleted!");
+        this.$emit("logout", response);
+      });
     },
   },
 };

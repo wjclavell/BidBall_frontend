@@ -13,6 +13,7 @@
         <router-view
           @loggedIn="login($event)"
           @registered="signup($event)"
+          @logout="logout"
           @reassign="reassign($event)"
           :url="URL"
           :user="user"
