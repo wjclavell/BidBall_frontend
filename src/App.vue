@@ -49,21 +49,29 @@ export default {
       loggedIn: false,
       URL: "https://project-cuatro.herokuapp.com/",
       // URL: "http://localhost:8000/",
-      user: null,
+      user: {},
+      sport_id: null,
     };
   },
   methods: {
     login: function(event) {
       this.loggedIn = true;
       this.user = event;
-      this.$cookies.set("user", this.user);
+      // this.$cookies.set("user", this.user);
+      localStorage.setItem("token", this.user.token);
+      localStorage.setItem("username", this.user.username);
+      localStorage.setItem("balance", this.user.balance);
+      localStorage.setItem("favoriteSport", this.user.favorite_league);
+      localStorage.setItem("favoriteTeams", this.user.favorite_teams);
+      localStorage.setItem("profilePic", this.user.profile_pic);
       this.$router.push("/main");
     },
     logout: function() {
       this.loggedIn = false;
       this.user = "";
-      this.$cookies.remove("user");
-      this.$router.push("/");
+      // this.$cookies.remove("user");
+      localStorage.clear();
+      // this.$router.push("/");
     },
     signup: function(event) {
       this.loggedIn = true;
@@ -73,6 +81,17 @@ export default {
     reassign: function(event) {
       this.user = event;
     },
+  },
+  beforeMount: function() {
+    this.user.token = localStorage.getItem("token");
+    this.user.username = localStorage.getItem("username");
+    this.user.balance = localStorage.getItem("balance");
+    this.user.favorite_sport = localStorage.getItem("favoriteSport");
+    this.user.favorite_teams = localStorage.getItem("favoriteTeams");
+    this.user.profile_pic = localStorage.getItem("profilePic");
+    if (this.user.token) {
+      this.loggedIn = true;
+    }
   },
 };
 </script>

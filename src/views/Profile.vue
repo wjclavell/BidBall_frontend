@@ -61,7 +61,7 @@
               v-for="item in user_info.favorite_teams"
               :key="item"
             >
-              {{ item }}
+              {{ item }} |
             </p>
           </div>
         </div>
@@ -118,6 +118,9 @@ export default {
       profile_pic: "",
       userBids: "",
     };
+  },
+  bidHistory: function() {
+    this.getBids();
   },
   methods: {
     //! for some reason this method only works after u change your picture...
@@ -200,6 +203,10 @@ export default {
         });
     },
   },
+  mounted: function() {
+    console.log("getting bids");
+    this.getBids();
+  },
 };
 </script>
 <style>
@@ -218,6 +225,7 @@ export default {
   box-shadow: 0 4px 7px #b1b1b1;
 }
 .user-left {
+  width: 250px;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
@@ -248,6 +256,7 @@ export default {
   color: #9c509f;
 }
 .user-mid {
+  width: 250px;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
@@ -267,8 +276,10 @@ export default {
 .team-names {
   color: #50b963;
   font-weight: bold;
+  display: inline;
 }
 .user-right {
+  width: 250px;
   display: flex;
   flex-direction: column;
   justify-content: space-around;

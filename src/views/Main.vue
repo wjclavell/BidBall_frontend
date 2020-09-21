@@ -1,13 +1,14 @@
 <template>
   <div class="main">
     <Category @sportID="pickSport($event)" />
-    <button
+    <!-- THIS BUTTON IS FOR TESTING SO I DO NOT EXCEED API REQUEST LIMIT -->
+    <!-- <button
       class="button is-primary"
       style="background-color: #7bc473"
       @click="sampleData"
     >
       Show the events!
-    </button>
+    </button> -->
     <!-- TEMPLATE CARD THAT LOOPS THROUGH EACH EVENT TO CREATE THE CARDS FOR ALL DATA FROM REQUEST -->
     <div v-if="no_games">
       <h1 id="no-games"><strong>NO</strong> <span>GAMES</span> TODAY!</h1>
@@ -601,12 +602,14 @@ export default {
   components: { Category, VueSlickCarousel },
   data: function() {
     return {
-      URL: this.url, //url for local api
-      rundown: "https://therundown-therundown-v1.p.rapidapi.com", //url for external api
+      URL: this.url, // url for my api
+      rundown: "https://therundown-therundown-v1.p.rapidapi.com", // url for external api
+      // below is info for creating a bid
       pick: "",
       event_id: "",
       amount: null,
       eventsObtained: false,
+      // settings for slick slider
       settings: {
         dots: true,
         focusOnSelect: true,
@@ -659,10 +662,6 @@ export default {
       events: [],
       game_id: null, //used to assign bid to created game
       no_games: false, //if there are no games today this will become true and display a message
-      // team1: "",
-      // team2: "",
-      // score1: "",
-      // score2: "",
       user_info: this.user,
     };
   },
@@ -676,7 +675,6 @@ export default {
       this.eventsObtained = false;
       let event_list = this.events;
       let self = this;
-      // let none = this.no_games;
       let req = unirest(
         "GET",
         `${this.rundown}/sports/${this.sport_id}/events/${this.date}`
@@ -695,15 +693,9 @@ export default {
 
       req.end(function(res) {
         if (res.error) throw new Error(res.error);
-        // stuff below was just testing if I could get and use the data
-        console.log(res.body);
-        // if (res.body.events.length === 0) {
-        //   console.log(none);
-        //   none = true;
-        //   console.log(none);
-        //   return none;
-        // }
-        // event_list = []; //empty the events array
+        if (res.body.events.length === 0) {
+          return (self.no_games = true);
+        }
         res.body.events.forEach((game) => {
           //for each game in the request data
           self.events.push({
@@ -738,7 +730,6 @@ export default {
         //   console.log("RESULT: you lose!");
         // }
       });
-      // this.no_games = none;
     },
     getSports: function() {
       let req = unirest(
@@ -792,9 +783,6 @@ export default {
           type: "is-danger",
           duration: 4000,
         });
-        // alert(
-        //   `You currently have ${this.user_info.balance} coins, you can only bid up to half your current balance on a single game`
-        // );
       } else {
         this.event_id = info.event_id;
         console.log(`bid pick: ${this.pick}`);
@@ -877,6 +865,20 @@ export default {
       }
     },
   },
+  // FETCH TODAY'S EVENTS AUTOMATICALLY BASED ON THE USER'S FAVORITE SPORT
+  mounted: function() {
+    console.log("when is this running");
+    if (this.user.favorite_league === "Baseball") {
+      this.sport_id = 3;
+      this.getEvents();
+    } else if (this.user.favorite_league === "Basketball") {
+      this.sport_id = 4;
+      this.getEvents();
+    } else if (this.user.favorite_league === "Football") {
+      this.sport_id = 2;
+      this.getEvents();
+    }
+  },
 };
 </script>
 <style>
@@ -885,6 +887,7 @@ export default {
 }
 #no-games {
   color: #812286;
+  font-size: 5em;
 }
 #no-games span {
   color: #7bc473;
