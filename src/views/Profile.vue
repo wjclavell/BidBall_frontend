@@ -56,7 +56,11 @@
             /></span>
           </h4>
           <div class="team-container">
-            <p v-for="item in user_info.favorite_teams" :key="item">
+            <p
+              class="team-names"
+              v-for="item in user_info.favorite_teams"
+              :key="item"
+            >
               {{ item }}
             </p>
           </div>
@@ -69,7 +73,16 @@
           <img id="game-bit" src="../assets/bidball_greenemblem.png" />
         </div>
         <div class="bid-container">
-          <h1>Recent Bids:</h1>
+          <h1>
+            Recent Bids:
+            <b-icon
+              id="refresh-bids"
+              pack="fas"
+              icon="sync-alt"
+              size="is-small"
+              @click.native="getBids"
+            ></b-icon>
+          </h1>
           <ul>
             <li v-for="bid in userBids" :key="bid">
               {{ bid.created_at.substring(0, 10) }} |
@@ -85,7 +98,6 @@
     <a id="delete-account" @click="confirmDelete">
       delete account
     </a>
-    <a id="userbids" @click="getBids">BIDS</a>
   </div>
 </template>
 
@@ -216,10 +228,13 @@ export default {
   font-weight: bold;
 }
 #profile-pic {
-  border: 0.5em solid #50b963;
+  /* border: 0.5em solid #50b963; */
   border-radius: 100%;
   height: 12em;
   width: 12em;
+}
+#profile-pic:hover {
+  filter: opacity(0.5);
 }
 #record {
   font-weight: bold;
@@ -230,7 +245,7 @@ export default {
 }
 #loss {
   font-size: 1.5em;
-  color: #812286;
+  color: #9c509f;
 }
 .user-mid {
   display: flex;
@@ -247,6 +262,10 @@ export default {
   color: #812286;
 }
 .fav-teams h4 {
+  font-weight: bold;
+}
+.team-names {
+  color: #50b963;
   font-weight: bold;
 }
 .user-right {
@@ -270,7 +289,23 @@ export default {
 .bid-container {
   height: 60%;
 }
+#refresh-bids {
+  color: #812286;
+}
+#refresh-bids:hover {
+  cursor: pointer;
+  animation: rotate 2s linear infinite;
+}
 #delete-account {
-  color: red;
+  color: rgb(248, 73, 73);
+}
+
+@keyframes rotate {
+  to {
+    transform: rotate(0deg);
+  }
+  from {
+    transform: rotate(-360deg);
+  }
 }
 </style>

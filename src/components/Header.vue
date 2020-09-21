@@ -136,13 +136,13 @@ export default {
 #user-profile-pic {
   width: 28px;
   height: 30px;
-  border: 2px solid #50b963;
+  /* border: 2px solid #50b963; */
   border-radius: 15px;
   transform: scale(1.5);
   margin-right: 1.5em;
 }
 #user-profile-pic:hover {
   cursor: pointer;
-  border-color: #812286;
+  filter: grayscale(0.5);
 }
 </style>

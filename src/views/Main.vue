@@ -8,7 +8,7 @@
     >
       Show the events!
     </button>
-    <!-- WILL MAKE A TEMPLATE CARD AND LOOP THROUGH EACH EVENT TO CREATE THE CARDS FOR ALL DATA FROM REQUEST -->
+    <!-- TEMPLATE CARD THAT LOOPS THROUGH EACH EVENT TO CREATE THE CARDS FOR ALL DATA FROM REQUEST -->
     <div v-if="no_games">
       <h1 id="no-games"><strong>NO</strong> <span>GAMES</span> TODAY!</h1>
     </div>
@@ -55,6 +55,7 @@
           <b-field v-if="item.game.status === 'STATUS_SCHEDULED'">
             <p class="control">
               <button
+                id="place-bid"
                 @click="placeBid(item.game)"
                 class="button"
                 style="background-color: #7bc473; color: white;"
@@ -86,7 +87,7 @@ require("dotenv").config();
 const unirest = require("unirest"); // unirest library used to make requests to 'the rundown' api
 const KEY = process.env.VUE_APP_API_KEY;
 
-//sample data
+//sample data for testing, becuse of limited 'the rundown' daily quota
 let juegos = [
   {
     event_id: "cf81774035cb5da1a01bcd1464b74",
@@ -614,8 +615,6 @@ export default {
         slidesToShow: 5,
         slidesToScroll: 5,
         touchThreshold: 5,
-        nextArrow: '<i class="far fa-arrow-alt-circle-right"></i>',
-        prevArrow: '<i class="far fa-arrow-alt-circle-left"></i>',
         responsive: [
           {
             breakpoint: 1100,
@@ -923,6 +922,10 @@ export default {
 #game-bit {
   height: 2em;
   width: 2em;
+}
+#place-bid {
+  background-color: #7bc473;
+  color: white;
 }
 #in-progress {
   color: #7bc473;

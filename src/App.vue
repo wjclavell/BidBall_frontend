@@ -47,7 +47,8 @@ export default {
   data: function() {
     return {
       loggedIn: false,
-      URL: "http://localhost:8000/",
+      URL: "https://project-cuatro.herokuapp.com/",
+      // URL: "http://localhost:8000/",
       user: null,
     };
   },
