@@ -87,6 +87,7 @@ require("dotenv").config();
 
 const unirest = require("unirest"); // unirest library used to make requests to 'the rundown' api
 const KEY = process.env.VUE_APP_API_KEY;
+console.log(KEY);
 
 //sample data for testing, becuse of limited 'the rundown' daily quota
 let juegos = [

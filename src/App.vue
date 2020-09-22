@@ -64,6 +64,8 @@ export default {
       localStorage.setItem("favoriteSport", this.user.favorite_league);
       localStorage.setItem("favoriteTeams", this.user.favorite_teams);
       localStorage.setItem("profilePic", this.user.profile_pic);
+      localStorage.setItem("correct", this.user.correct);
+      localStorage.setItem("incorrect", this.user.incorrect);
       this.$router.push("/main");
     },
     logout: function() {
@@ -89,6 +91,8 @@ export default {
     this.user.favorite_sport = localStorage.getItem("favoriteSport");
     this.user.favorite_teams = localStorage.getItem("favoriteTeams");
     this.user.profile_pic = localStorage.getItem("profilePic");
+    this.user.correct = localStorage.getItem("correct");
+    this.user.incorrect = localStorage.getItem("incorrect");
     if (this.user.token) {
       this.loggedIn = true;
     }
