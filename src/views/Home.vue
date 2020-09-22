@@ -40,6 +40,7 @@ export default {
 #wordmark {
   margin-top: 3em;
   transform: scale(0.4);
+  animation: drop 3s ease-in-out;
 }
 .banner {
   background-image: url("https://res.cloudinary.com/wjclavell/image/upload/v1600733184/P4/purple-wallpaper_qsw3gj.png");
@@ -99,6 +100,22 @@ export default {
 #big-signup:hover {
   color: #812286;
 }
+
+@keyframes drop {
+  30% {
+    top: -100%;
+  }
+  55% {
+    top: 40%;
+  }
+  85% {
+    top: -10%;
+  }
+  100% {
+    top: 0;
+  }
+}
+
 @media only screen and (max-width: 450px) {
   .landing-info li {
     font-size: 1.75em;
