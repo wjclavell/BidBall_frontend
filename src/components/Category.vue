@@ -49,10 +49,7 @@ export default {
   name: "Category",
   methods: {
     sportID: function() {
-      // this.id = event.target.id;
-      // console.log(this.id);
       this.$emit("sportID", event.target.id);
-      console.log(`method is activated with id: ${event.target.id}`);
     },
   },
 };

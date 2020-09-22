@@ -54,6 +54,7 @@ export default {
       password: "",
       favorite_league: "",
       URL: this.url,
+      no_console: null,
     };
   },
   methods: {
@@ -76,7 +77,7 @@ export default {
           response.json();
         })
         .then((data) => {
-          console.log(data);
+          this.no_console = data;
           this.$buefy.toast.open({
             message: "Sign up successful! Now login in to continue.",
             type: "is-success",

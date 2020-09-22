@@ -665,6 +665,7 @@ export default {
       game_id: null, //used to assign bid to created game
       no_games: false, //if there are no games today this will become true and display a message
       user_info: this.user,
+      no_console: null,
     };
   },
   computed: {},
@@ -828,7 +829,7 @@ export default {
               .then((data) => {
                 this.event_id = "";
                 this.user_info.balance -= this.amount;
-                console.log(data);
+                this.no_console = data;
                 //after placing a bid, change user's balance permanently
                 const editUser = {
                   email: this.user.email,
