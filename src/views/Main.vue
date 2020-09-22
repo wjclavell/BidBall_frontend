@@ -11,7 +11,9 @@
     </button> -->
     <!-- TEMPLATE CARD THAT LOOPS THROUGH EACH EVENT TO CREATE THE CARDS FOR ALL DATA FROM REQUEST -->
     <div v-if="no_games">
-      <h1 id="no-games"><strong>NO</strong> <span>GAMES</span> TODAY!</h1>
+      <h1 v-if="no_games" id="no-games">
+        <strong>NO</strong> <span>GAMES</span> TODAY!
+      </h1>
     </div>
     <VueSlickCarousel
       class="event-container"
@@ -696,6 +698,8 @@ export default {
         if (res.error) throw new Error(res.error);
         if (res.body.events.length === 0) {
           return (self.no_games = true);
+        } else {
+          self.no_games = false;
         }
         res.body.events.forEach((game) => {
           //for each game in the request data
@@ -715,7 +719,6 @@ export default {
           });
         });
         self.eventsObtained = true;
-        console.log(event_list);
         return event_list;
         // if (
         //   this.winner == "away" &&
@@ -746,8 +749,6 @@ export default {
 
       req.end(function(res) {
         if (res.error) throw new Error(res.error);
-
-        console.log(res.body);
       });
     },
     sampleData: function() {
@@ -769,7 +770,6 @@ export default {
         });
       });
       this.eventsObtained = true;
-      console.log(this.events);
     },
     // when user selects a sport category we will set the id to the sport_id and run the fetch request with the events for that sport
     pickSport: function(id) {
@@ -786,10 +786,6 @@ export default {
         });
       } else {
         this.event_id = info.event_id;
-        console.log(`bid pick: ${this.pick}`);
-        console.log(`bid amount: ${this.amount}`);
-        console.log(`event ID: ${this.event_id}`);
-        console.log(info);
         const newGame = JSON.stringify({
           event_id: info.event_id,
           sport: info.sport_id,
@@ -811,7 +807,6 @@ export default {
           .then((response) => response.json())
           .then((data) => {
             this.game_id = data.id;
-            console.log(`created game: `, data, data.id);
 
             const newBid = JSON.stringify({
               game: this.game_id,
@@ -834,7 +829,7 @@ export default {
               .then((data) => {
                 this.event_id = "";
                 this.user_info.balance -= this.amount;
-                console.log(`created bid: `, data);
+                console.log(data);
                 //after placing a bid, change user's balance permanently
                 const editUser = {
                   email: this.user.email,
@@ -859,7 +854,6 @@ export default {
                     this.amount = null;
                     this.pick = "";
                     console.log(data);
-                    console.log("updated user:", this.user_info);
                   });
               });
           });

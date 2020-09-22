@@ -158,7 +158,6 @@ export default {
       })
         .then((response) => response.json())
         .then((data) => {
-          console.log(data);
           this.profile_pic = "";
           this.user_info = data;
           this.$emit("reassign", data);
@@ -199,12 +198,10 @@ export default {
         .then((response) => response.json())
         .then((data) => {
           this.userBids = data.results;
-          console.log(data.results);
         });
     },
   },
   mounted: function() {
-    console.log("getting bids");
     this.getBids();
   },
 };
