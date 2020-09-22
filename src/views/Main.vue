@@ -861,7 +861,6 @@ export default {
   },
   // FETCH TODAY'S EVENTS AUTOMATICALLY BASED ON THE USER'S FAVORITE SPORT
   mounted: function() {
-    console.log("when is this running");
     if (this.user.favorite_league === "Baseball") {
       this.sport_id = 3;
       this.getEvents();
