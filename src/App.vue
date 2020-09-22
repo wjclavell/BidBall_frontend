@@ -6,7 +6,7 @@
           <Header
             v-bind:url="URL"
             v-bind:loggedIn="loggedIn"
-            v-bind:user="user"
+            :user="user"
             @logout="logout"
           />
         </div>

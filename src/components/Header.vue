@@ -63,7 +63,7 @@
         </b-navbar-item>
         <b-navbar-item>
           <div id="balance">
-            <p v-if="loggedIn">{{ user_info.balance }}</p>
+            <p v-if="loggedIn">{{ user.balance }}</p>
             <img
               v-if="loggedIn"
               src="../assets/Gamebits.svg"
