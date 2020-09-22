@@ -16,11 +16,11 @@
           </ul>
         </div>
         <div>
-          <button id="big-signup">
-            <router-link id="button-text" to="/signup"
-              >Start bidding!</router-link
-            >
-          </button>
+          <router-link id="button-text" to="/signup">
+            <button id="big-signup">
+              Start bidding!
+            </button></router-link
+          >
         </div>
       </div>
     </div>
@@ -96,7 +96,7 @@ export default {
 #big-signup:hover:before {
   top: 0;
 }
-#big-signup:hover router-link {
+#big-signup:hover {
   color: #812286;
 }
 @media only screen and (max-width: 450px) {
