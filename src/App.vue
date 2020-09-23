@@ -67,6 +67,15 @@ export default {
       localStorage.setItem("correct", this.user.correct);
       localStorage.setItem("incorrect", this.user.incorrect);
       this.$router.push("/main");
+      /* //TODO to retrieve & check results of a user's bid: 
+      1) On login, get all user bids where status === "pending"  (make this route in backend?)
+      2) For each bid, fetch for corresponding event in 'the rundown' api using event_id
+      3) IF status === STATUS_FINAL then its time to check results! ELSE do nothing
+      4) IF bid.pick === 'away' AND event.away_win === true
+      5) user.balance += (2 * bid.amount); user.correct += 1; bid.status = "W"
+      6) Same if pick is home & win is home
+      7) ELSE user.incorrect += 1; bid.status = "L"
+      */
     },
     logout: function() {
       this.loggedIn = false;

@@ -853,7 +853,7 @@ export default {
                     });
                     this.amount = null;
                     this.pick = "";
-                    console.log(data);
+                    this.no_console = data;
                   });
               });
           });
