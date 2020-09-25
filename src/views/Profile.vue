@@ -95,9 +95,7 @@
         </div>
       </div>
     </section>
-    <a id="delete-account" @click="confirmDelete">
-      delete account
-    </a>
+    <a id="delete-account" @click="confirmDelete"> delete account </a>
   </div>
 </template>
 
@@ -111,7 +109,7 @@ export default {
     Collapse,
   },
   props: ["user", "url"],
-  data: function() {
+  data: function () {
     return {
       user_info: this.user,
       URL: this.url,
@@ -119,12 +117,12 @@ export default {
       userBids: "",
     };
   },
-  bidHistory: function() {
+  bidHistory: function () {
     this.getBids();
   },
   methods: {
     //! for some reason this method only works after u change your picture...
-    favorites: function(team) {
+    favorites: function (team) {
       //update user favorite_teams field
       this.user_info.favorite_teams.push(team);
       this.user_info.favorite_teams;
@@ -142,7 +140,7 @@ export default {
         body: JSON.stringify(editUser),
       }).then((response) => response.json());
     },
-    changePic: function() {
+    changePic: function () {
       const editUser = {
         email: this.user.email,
         username: this.user.username,
@@ -163,7 +161,7 @@ export default {
           this.$emit("reassign", data);
         });
     },
-    confirmDelete: function() {
+    confirmDelete: function () {
       this.$buefy.dialog.confirm({
         title: "Deleting account",
         message:
@@ -174,7 +172,7 @@ export default {
         onConfirm: () => this.deleteAccount(),
       });
     },
-    deleteAccount: function() {
+    deleteAccount: function () {
       fetch(`${this.URL}auth/users/profile`, {
         method: "DELETE",
         headers: {
@@ -186,7 +184,7 @@ export default {
         this.$emit("logout", response);
       });
     },
-    getBids: function() {
+    getBids: function () {
       fetch(`${this.URL}api/bids/`, {
         method: "GET",
         headers: {
@@ -201,7 +199,7 @@ export default {
         });
     },
   },
-  mounted: function() {
+  mounted: function () {
     this.getBids();
   },
 };
