@@ -54,6 +54,8 @@ export default {
       user: {},
       sport_id: null,
       no_console: null,
+      correctPicks: 0, // keep track of how many picks the user got correct
+      coinsGained: 0, // keep track of how many coins the user has gained from correct picks
     };
   },
   methods: {
@@ -79,8 +81,6 @@ export default {
       6) Same if pick is home & win is home
       7) ELSE user.incorrect += 1; bid.status = "L"
       */
-      let correctPicks = 0; // keep track of how many picks the user got correct
-      let coinsGained = 0; // keep track of how many coins the user has gained from correct picks
       fetch(`${this.URL}api/bids/`, {
         method: "GET",
         headers: {
@@ -91,8 +91,11 @@ export default {
       })
         .then((response) => response.json())
         .then((data) => {
+          console.log(data);
+          const self = this;
           data.results.forEach((bid) => {
             if (bid.result === "pending") {
+              console.log(bid.result);
               const req = unirest(
                 "GET",
                 `https://therundown-therundown-v1.p.rapidapi.com/events/${bid.event_id}`
@@ -110,85 +113,95 @@ export default {
 
               req.end(function (res) {
                 if (res.error) throw new Error(res.error);
+                console.log(res.body);
 
-                if (res.body.event_status_detail === "Final") {
+                if (res.body.score.event_status_detail === "Final") {
+                  console.log("conditional worked: ", res.body);
                   if (
-                    (bid.pick === "away" && res.body.score.winner_away === 1) ||
-                    (bid.pick === "home" && res.body.score.winner_home === 1)
+                    (bid.team === "away" && res.body.score.winner_away === 1) ||
+                    (bid.team === "home" && res.body.score.winner_home === 1)
                   ) {
-                    correctPicks += 1; // increase correct counter
-                    coinsGained += 2 * bid.amount; // increase coin counter
+                    self.correctPicks += 1; // increase correct counter
+                    self.coinsGained += 2 * bid.amount; // increase coin counter
                     const editBid = JSON.stringify({
+                      amount: bid.amount,
+                      game: bid.game,
+                      team: bid.team,
                       result: "W",
                     });
                     // create the bid for this game
-                    fetch(`${this.URL}api/bids/`, {
+                    fetch(`${self.URL}api/bids/${bid.id}/`, {
                       method: "PUT",
                       headers: {
                         "Content-Type": "application/json",
                         // only if logged in
-                        Authorization: `JWT ${this.user.token}`,
+                        Authorization: `JWT ${self.user.token}`,
                       },
                       body: editBid,
                     })
                       .then((response) => response.json())
                       .then((data) => {
-                        this.user.balance += 2 * bid.amount;
-                        this.no_console = data;
+                        console.log("updated bid: ", data);
+                        self.user.balance += 2 * bid.amount;
+                        self.no_console = data;
                         //after placing a bid, change user's balance permanently
                         const editUser = {
-                          email: this.user.email,
-                          username: this.user.username,
-                          correct: this.user.correct + 1,
-                          balance: this.user.balance,
+                          email: self.user.email,
+                          username: self.user.username,
+                          correct: self.user.correct + 1,
+                          balance: self.user.balance,
                         };
-                        fetch(`${this.URL}auth/users/profile/`, {
+                        fetch(`${self.URL}auth/users/profile/`, {
                           method: "PUT",
                           headers: {
                             "Content-Type": "application/json",
-                            Authorization: `JWT ${this.user.token}`,
+                            Authorization: `JWT ${self.user.token}`,
                           },
                           body: JSON.stringify(editUser),
                         })
                           .then((response) => response.json())
                           .then((data) => {
-                            this.no_console = data;
+                            self.no_console = data;
                           });
                       });
                   } else {
                     const editBid = JSON.stringify({
+                      amount: bid.amount,
+                      game: bid.game,
+                      team: bid.team,
                       result: "L",
                     });
                     // create the bid for this game
-                    fetch(`${this.URL}api/bids/`, {
+                    fetch(`${self.URL}api/bids/${bid.id}/`, {
                       method: "PUT",
                       headers: {
                         "Content-Type": "application/json",
                         // only if logged in
-                        Authorization: `JWT ${this.user.token}`,
+                        Authorization: `JWT ${self.user.token}`,
                       },
                       body: editBid,
                     })
                       .then((response) => response.json())
                       .then((data) => {
-                        this.no_console = data;
+                        console.log("updated bid: ", data);
+                        self.no_console = data;
                         //after placing a bid, change user's balance permanently
                         const editUser = {
-                          email: this.user.email,
-                          username: this.user.username,
-                          incorrect: this.user.incorrect + 1,
+                          email: self.user.email,
+                          username: self.user.username,
+                          incorrect: self.user.incorrect + 1,
                         };
-                        fetch(`${this.URL}auth/users/profile/`, {
+                        fetch(`${self.URL}auth/users/profile/`, {
                           method: "PUT",
                           headers: {
                             "Content-Type": "application/json",
-                            Authorization: `JWT ${this.user.token}`,
+                            Authorization: `JWT ${self.user.token}`,
                           },
                           body: JSON.stringify(editUser),
                         })
                           .then((response) => response.json())
                           .then((data) => {
-                            this.no_console = data;
+                            self.no_console = data;
                           });
                       });
                   }
@@ -197,10 +210,12 @@ export default {
             }
           });
           this.$buefy.toast.open({
-            message: `You've had ${correctPicks} correct picks since your last login. ${coinsGained} coins have been added to your account!`,
+            message: `You've had ${this.correctPicks} correct picks since your last login. ${this.coinsGained} coins have been added to your account!`,
             type: "is-success",
             duration: 6000,
           });
+          this.correctPicks = 0;
+          this.coinsGained = 0;
         });
     },
     logout: function () {
