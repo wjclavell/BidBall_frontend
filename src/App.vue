@@ -209,14 +209,14 @@ export default {
               });
             }
           });
-          this.$buefy.toast.open({
-            message: `You've had ${this.correctPicks} correct picks since your last login. ${this.coinsGained} coins have been added to your account!`,
-            type: "is-success",
-            duration: 6000,
-          });
-          this.correctPicks = 0;
-          this.coinsGained = 0;
         });
+      this.$buefy.toast.open({
+        message: `You've had ${this.correctPicks} correct picks since your last login. ${this.coinsGained} coins have been added to your account!`,
+        type: "is-success",
+        duration: 6000,
+      });
+      this.correctPicks = 0;
+      this.coinsGained = 0;
     },
     logout: function () {
       this.loggedIn = false;
